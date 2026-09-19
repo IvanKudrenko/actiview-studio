@@ -38,6 +38,12 @@ class StudioProjectTests(unittest.TestCase):
             for name, digest in manifest["checksums"].items():
                 self.assertEqual(digest, hashlib.sha256(archive.read(name)).hexdigest())
 
+    def test_static_package_sources_match_local_export(self) -> None:
+        listing = json.loads((server.WEB / "package-files.json").read_text())
+        browser_targets = {item["target"] for item in listing}
+        local_targets = set(server.package_files(self.project)) - {"project/project.json", "manifest.json"}
+        self.assertEqual(local_targets, browser_targets)
+
 
 if __name__ == "__main__":
     unittest.main()
