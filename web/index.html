@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ActiView Studio</title>
+  <link rel="stylesheet" href="shared/runtime.css">
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="brand"><span class="mark">A</span><strong>ActiView Studio</strong><span id="save-state">Saved</span></div>
+    <nav class="modes" aria-label="Workspace mode">
+      <button data-mode="design" class="active">Design</button><button data-mode="simulate">Simulate</button><button data-mode="deploy">Deploy</button>
+    </nav>
+    <div class="toolbar-actions">
+      <button id="undo" title="Undo (⌘Z)">Undo</button><button id="redo" title="Redo (⇧⌘Z)">Redo</button>
+      <label>Scale <select id="scale"><option value="fit">Fit</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option></select></label>
+      <button id="save">Save</button><button id="import">Open Project…</button><button id="export" class="primary">Download Project</button>
+      <input id="file-input" type="file" accept=".json,.avproject,.zip" hidden>
+    </div>
+  </header>
+
+  <main class="workspace mode-design">
+    <aside class="left-panel panel" aria-label="Screens and layers">
+      <section>
+        <div class="section-title"><h2>Screens</h2><div><button id="add-screen" title="Add screen">+</button><button id="screen-menu" title="Duplicate or remove screen">•••</button></div></div>
+        <div id="screens" class="screens"></div>
+      </section>
+      <section class="layers-section">
+        <div class="section-title"><h2>Layers</h2><button id="add-element" title="Add element">+</button></div>
+        <div id="component-library" class="component-library" hidden></div>
+        <div id="layers" class="layers"></div>
+      </section>
+    </aside>
+
+    <section class="stage-column">
+      <div class="stage-bar"><span id="screen-name">Home</span><span id="viewport-label">480 × 320</span><span id="simulation-badge" hidden>SIMULATED DATA</span></div>
+      <div id="stage" class="stage">
+        <div id="scale-shell" class="scale-shell"><div id="device" aria-label="ActiView device preview"></div><div id="selection" hidden><i data-handle="nw"></i><i data-handle="ne"></i><i data-handle="sw"></i><i data-handle="se"></i></div></div>
+      </div>
+      <div class="statusbar"><span id="selection-status">No selection</span><span>Coordinates are device pixels</span></div>
+    </section>
+
+    <aside class="right-panel panel" aria-label="Properties">
+      <div id="design-inspector">
+        <div class="section-title"><h2>Properties</h2><div><button id="send-back" title="Send backward">↓</button><button id="bring-front" title="Bring forward">↑</button></div></div>
+        <div id="empty-inspector" class="empty">Select an element on the canvas or in Layers.</div>
+        <form id="properties" hidden></form>
+      </div>
+      <div id="simulation-controls" hidden>
+        <div class="section-title"><h2>Simulation</h2><button id="reset-sim">Reset</button></div>
+        <p class="hint">These values are local mock adapter data and are never exported as production state.</p>
+        <form id="sim-form"></form>
+      </div>
+      <div id="deploy-panel" hidden>
+        <div class="section-title"><h2>Deploy</h2></div>
+        <div id="local-deploy-controls">
+          <p class="hint">Deployment stages a versioned release, validates it, and only then updates <code>/opt/actiview-web/current</code>. The Tkinter UI is preserved.</p>
+          <form id="deploy-form">
+            <label>Host<input name="host" value="actiview.local" required></label>
+            <label>User<input name="user" value="pi" required></label>
+            <label>SSH port<input name="port" type="number" value="22" min="1" max="65535"></label>
+            <label>Identity file (optional)<input name="identity" placeholder="/Users/me/.ssh/id_ed25519"></label>
+            <label>Target root<input name="target" value="/opt/actiview-web" readonly></label>
+            <button type="button" id="check-connection">Check connection & compatibility</button>
+            <label class="confirm"><input name="confirm" type="checkbox"> I understand activation changes the ActiView UI service only.</label>
+            <button type="submit" class="primary">Stage, validate & activate</button>
+          </form>
+          <pre id="deploy-log" aria-live="polite">Not connected.</pre>
+        </div>
+        <div id="online-deploy-notice" hidden>
+          <p class="hint">Online Studio cannot access your Mac, SSH keys, or Raspberry Pi. Download the complete project here, then open it in the local Studio to deploy safely.</p>
+          <button type="button" id="online-download" class="primary wide-button">Download Project for local deployment</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="shared/runtime.js"></script>
+  <script src="platform.js"></script>
+  <script src="studio.js"></script>
+</body>
+</html>

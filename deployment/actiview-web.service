@@ -1,0 +1,18 @@
+[Unit]
+Description=ActiView shared web touchscreen UI
+After=network-online.target actiview_http.service
+Wants=network-online.target actiview_http.service
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/opt/actiview-web/current
+Environment=PYTHONUNBUFFERED=1
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/xinit /opt/actiview-web/current/launch_device.sh -- :0 -nocursor
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
