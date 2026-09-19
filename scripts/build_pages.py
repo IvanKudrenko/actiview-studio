@@ -21,7 +21,7 @@ def main() -> None:
     shutil.copy2(ROOT / "projects" / "actiview.project.json", OUTPUT / "project" / "project.json")
     source = OUTPUT / "package-source"
     source.mkdir()
-    for path in (ROOT / "device_server.py", ROOT / "launch_device.sh", ROOT / "CODEX_INSTRUCTIONS.md"):
+    for path in (ROOT / "device_server.py", ROOT / "launch_device.sh", ROOT / "CODEX_INSTRUCTIONS.md", ROOT / "SOURCE_IMPORT.md"):
         shutil.copy2(path, source / path.name)
     shutil.copy2(ROOT / "deployment" / "actiview-web.service", source / "actiview-web.service")
     (OUTPUT / ".nojekyll").write_text("")

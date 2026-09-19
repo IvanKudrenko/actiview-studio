@@ -35,8 +35,27 @@ class DeviceHandler(SimpleHTTPRequestHandler):
             self.send_error(400, "Invalid JSON")
             return
         command = str(payload.get("command") or "")
+        state = payload.get("state") or {}
+        music_commands = {
+            "music.prev": "prev",
+            "music.next": "next",
+            "music.toggle": "toggle",
+            "music.volume_up": "volume_up",
+            "music.volume_down": "volume_down",
+        }
+        if command in music_commands:
+            return self._proxy("POST", "/api/v1/commands", {"type": "music.control", "command": music_commands[command]})
+        phone_commands = {
+            "phone.find": "find_phone",
+            "phone.accept": "accept_call",
+            "phone.decline": "decline_call",
+        }
+        if command in phone_commands:
+            return self._proxy("POST", "/api/v1/commands", {"type": "phone.command", "command": phone_commands[command]})
+        if command == "phone.dial":
+            return self._proxy("POST", "/api/v1/commands", {"type": "phone.command", "command": "dial_number", "number": state.get("dialNumber") or ""})
         if command == "waypoint.add":
-            gps = (payload.get("state") or {}).get("gps") or {}
+            gps = state.get("gps") or {}
             body = {"lat": gps.get("lat"), "lon": gps.get("lon"), "name": "Saved from display"}
             return self._proxy("POST", "/api/v1/waypoints", body)
         if command == "sos":

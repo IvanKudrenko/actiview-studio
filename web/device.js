@@ -2,7 +2,7 @@
   'use strict';
   const adapter = {
     async command(command, state) {
-      try { await fetch('/device-api/command', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({command, state:{gps:state.gps, phone:state.phone}})}); }
+      try { await fetch('/device-api/command', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({command, state:{gps:state.gps, phone:state.phone, dialNumber:state.dialNumber, call:state.call}})}); }
       catch (error) { console.warn('ActiView command failed', error); }
     }
   };
@@ -19,11 +19,19 @@
     } catch (_) { runtime.setState({phone:{connection:'Disconnected'}, gps:{status:'No fix'}}); }
   }
   function normalize(raw) {
-    const gps=raw.gps||{}, phone=raw.phone||raw.status||{}, weather=raw.weather||{}, music=raw.music||{};
-    return {gps:{...gps,status:gps.lat!=null?'3D fix':'No fix'},speedKmh:Math.round(Number(gps.speed_mps||raw.speed_mps||0)*3.6),phone:{...phone,name:phone.phone_name||phone.name||'Phone',connection:raw.connection?.connected||raw.connected?'Connected':'Disconnected'},weather:{temperature:weather.temperature??weather.temp,description:weather.description||weather.condition||'No data'},music:{track:music.track||music.title||'No song',artist:music.artist||'--',playing:!!music.playing},trip:raw.trip||{},call:raw.call_state||raw.call||{},time:phone.time_text||new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})};
+    const gps=raw.gps||{}, phone=raw.phone||raw.status||{}, weather=raw.weather||{}, music=raw.music||raw.song||{}, connection=raw.connection||{};
+    const connected=Boolean(connection.connected??raw.connected), tempF=weather.temperature_f??weather.temperature??weather.temp;
+    return {
+      gps:{...gps,status:gps.lat!=null?'3D FIX':'No fix'}, speedKmh:Math.round(Number(gps.speed_mps||raw.speed_mps||0)*3.6),
+      connection:{...connection,connected,transport:String(connection.transport||'none').toUpperCase(),message:connection.message||(connected?'Connected':'Disconnected')},
+      phone:{...phone,phone_name:phone.phone_name||phone.name||'iPhone',name:phone.phone_name||phone.name||'iPhone',connection:connected?'Connected':'Disconnected'},
+      weather:{...weather,temperature_f:tempF,temperature:tempF==null?'--':Math.round((Number(tempF)-32)*5/9),summary:weather.summary||weather.description||weather.condition||'No weather',description:weather.summary||weather.description||weather.condition||'No weather'},
+      music:{...music,title:music.title||music.track||'No song',track:music.title||music.track||'No song',artist:music.artist||'--',source:music.source||music.album||'--',playing:!!music.playing},
+      breadcrumbs:raw.breadcrumbs||[],route:raw.active_route||raw.route||{},active_trip:raw.active_trip||null,trip:raw.trip||{},contacts:raw.contacts||[],waypointsText:raw.waypointsText||'',
+      call:raw.call_state||raw.call||{},time:phone.time_text||new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})
+    };
   }
   function fit(display){const scale=Math.min(innerWidth/display.width,innerHeight/display.height);document.querySelector('#device').style.transform=`scale(${scale})`;}
   window.addEventListener('resize',()=>runtime.project&&fit(runtime.project.display));
   start().catch(error=>{document.body.textContent=`ActiView runtime failed: ${error.message}`;document.body.style.color='white';});
 })();
-

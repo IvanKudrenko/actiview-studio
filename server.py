@@ -28,7 +28,8 @@ WEB = ROOT / "web"
 PROJECT_FILE = ROOT / "projects" / "actiview.project.json"
 REPO = ROOT.parent
 ICON_DIR = WEB / "assets" / "icons"
-RUNTIME_VERSION = "1.0.0"
+ASSET_DIR = WEB / "assets"
+RUNTIME_VERSION = "1.1.0"
 HOST_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
 USER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_-]*$")
 
@@ -72,11 +73,12 @@ def package_files(project: dict) -> dict[str, bytes]:
         "device_server.py": (ROOT / "device_server.py").read_bytes(),
         "launch_device.sh": (ROOT / "launch_device.sh").read_bytes(),
         "CODEX_INSTRUCTIONS.md": (ROOT / "CODEX_INSTRUCTIONS.md").read_bytes(),
+        "SOURCE_IMPORT.md": (ROOT / "SOURCE_IMPORT.md").read_bytes(),
         "systemd/actiview-web.service": (ROOT / "deployment" / "actiview-web.service").read_bytes(),
     }
-    if ICON_DIR.exists():
-        for path in sorted(ICON_DIR.glob("*.svg")):
-            files[f"assets/icons/{path.name}"] = path.read_bytes()
+    if ASSET_DIR.exists():
+        for path in sorted(item for item in ASSET_DIR.rglob("*") if item.is_file()):
+            files[path.relative_to(WEB).as_posix()] = path.read_bytes()
     manifest = {
         "format": "actiview-export",
         "formatVersion": 1,
@@ -114,6 +116,7 @@ class StudioHandler(SimpleHTTPRequestHandler):
                 "device_server.py": ROOT / "device_server.py",
                 "launch_device.sh": ROOT / "launch_device.sh",
                 "CODEX_INSTRUCTIONS.md": ROOT / "CODEX_INSTRUCTIONS.md",
+                "SOURCE_IMPORT.md": ROOT / "SOURCE_IMPORT.md",
                 "actiview-web.service": ROOT / "deployment" / "actiview-web.service",
             }
             return str(sources.get(Path(clean).name, WEB / "missing"))

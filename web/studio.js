@@ -3,19 +3,20 @@
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
   const clone = value => JSON.parse(JSON.stringify(value));
-  const state = {project:null, screenId:null, selectedId:null, mode:'design', undo:[], redo:[], dirty:false, scale:'fit', localBackend:false};
-  const mockAdapter = {command(command){ toast(`Simulated command: ${command}`); }};
+  const state = {project:null, bundledProject:null, screenId:null, selectedId:null, mode:'design', undo:[], redo:[], dirty:false, scale:'fit', localBackend:false};
+  const mockAdapter = {command(command, current, runtimeRef){ simulateCommand(command, current, runtimeRef); }};
   const runtime = new ActiViewRuntime($('#device'), {mode:'design', adapter:mockAdapter, onSelect:selectElement, onNavigate:id => { state.screenId=id; state.selectedId=null; refreshAll(); }});
 
   async function boot() {
     try {
       state.localBackend = await ActiViewPlatform.initialize();
       const loaded = await ActiViewPlatform.loadProject();
+      state.bundledProject = loaded.bundledProject || clone(loaded.project);
       loadProject(loaded.project);
       bindUI(); buildComponentLibrary(); buildSimulationControls(); setMode('design');
       configurePlatformUI();
       window.addEventListener('resize', updateScale); setTimeout(updateScale);
-      if (!state.localBackend && loaded.source === 'this browser') toast('Opened the project saved in this browser.');
+      if (!state.localBackend && loaded.source === 'this browser') toast(loaded.updateAvailable ? 'Your saved project is preserved. Use Load Current UI to open the newly imported interface.' : 'Opened the project saved in this browser.');
     } catch (error) { document.body.innerHTML = `<pre class="fatal">Unable to load ActiView project:\n${escapeHTML(error.message)}</pre>`; }
   }
 
@@ -28,7 +29,7 @@
   function bindUI() {
     $$('.modes button').forEach(button => button.onclick = () => setMode(button.dataset.mode));
     $('#scale').onchange = event => { state.scale = event.target.value; updateScale(); };
-    $('#save').onclick = saveProject; $('#export').onclick = exportProject; $('#import').onclick = () => $('#file-input').click();
+    $('#save').onclick = saveProject; $('#load-default').onclick = loadBundledProject; $('#export').onclick = exportProject; $('#import').onclick = () => $('#file-input').click();
     $('#file-input').onchange = importProject; $('#undo').onclick = undo; $('#redo').onclick = redo;
     $('#add-screen').onclick = addScreen; $('#screen-menu').onclick = screenActions; $('#add-element').onclick = () => $('#component-library').toggleAttribute('hidden');
     $('#bring-front').onclick = () => reorderSelected(1); $('#send-back').onclick = () => reorderSelected(-1); $('#reset-sim').onclick = resetSimulation;
@@ -78,7 +79,7 @@
     const root = $('#layers'); root.replaceChildren(); const screen = currentScreen(); if (!screen) return;
     [...screen.elements].reverse().forEach(element => {
       const button = document.createElement('button'); button.className = `layer-row${element.id === state.selectedId ? ' active' : ''}${element.visible === false ? ' hidden-layer' : ''}`;
-      button.innerHTML = `<b class="layer-type">${escapeHTML(element.type.slice(0,3))}</b><span>${escapeHTML(element.id)}</span><small>${element.visible === false ? 'hidden' : ''}</small>`;
+      button.innerHTML = `<b class="layer-type">${escapeHTML(element.type.slice(0,3))}</b><span>${escapeHTML(element.id)}</span><small>${element.visible === false ? 'hidden' : (element.visibleWhen ? 'conditional' : '')}</small>`;
       button.onclick = () => selectElement(element.id); root.append(button);
     });
   }
@@ -92,14 +93,16 @@
       ${field('ID','id',element.id,'text',false)}
       <div class="field-section">Geometry</div><div class="field-grid">${field('X','x',element.x,'number')}${field('Y','y',element.y,'number')}${field('Width','w',element.w,'number')}${field('Height','h',element.h,'number')}</div>
       <div class="field-section">Content & appearance</div>
-      ${['text','button','nav'].includes(element.type) ? field('Text','text',element.text || '') : ''}
+      ${['text','button','nav','tile','card','shape'].includes(element.type) ? field('Text','text',element.text || '') : ''}
       ${['status'].includes(element.type) ? field('Label','label',element.label || '') + field('Value / binding','value',element.value || '') + field('Suffix','suffix',element.suffix || '') : ''}
-      ${['icon','button','nav','status'].includes(element.type) ? selectField('Icon','icon',element.icon || '', ['','home','map','music','speed','weather','phone','settings','gps','wifi','bluetooth','battery','brightness','restart','power']) : ''}
+      ${element.type === 'tile' ? field('Value / binding','value',element.value || '') + field('Detail / binding','detail',element.detail || '') : ''}
+      ${['icon','button','nav','status','tile'].includes(element.type) ? selectField('Icon','icon',element.icon || '', ['','apps','home','map','music','speed','weather','phone','settings','gps','wifi','bluetooth','battery','brightness','restart','power']) + field('Original icon path','iconSrc',element.iconSrc || '') : ''}
       ${element.type === 'image' ? field('Image path','src',element.src || '') : ''}
       <div class="field-grid">${colorField('Text / icon','color',element.color || '#111111')}${colorField('Background','background',normalizeColor(element.background || '#00000000'))}${field('Radius','radius',element.radius || 0,'number')}${field('Padding','padding',element.padding || 0,'number')}</div>
-      <div class="field-grid">${field('Font size','fontSize',element.fontSize || 12,'number')}${selectField('Weight','fontWeight',String(element.fontWeight || 400),['400','500','600','700','800'])}${field('Line height','lineHeight',element.lineHeight || 0,'number')}${selectField('Alignment','align',element.align || 'left',['left','center','right'])}</div>
+      <div class="field-grid">${field('Font size','fontSize',element.fontSize || 12,'number')}${selectField('Weight','fontWeight',String(element.fontWeight || 400),['400','500','600','700','800'])}${field('Line height','lineHeight',element.lineHeight || 0,'number')}${selectField('Alignment','align',element.align || 'left',['left','center','right'])}${selectField('Vertical align','verticalAlign',element.verticalAlign || 'center',['top','center','bottom'])}${field('Visible when','visibleWhen',element.visibleWhen || '')}</div>
+      ${['shape','tile'].includes(element.type) || element.shape === 'superellipse' ? `<div class="field-grid">${field('Superellipse exponent','exponent',element.exponent || 4.6,'number')}${element.type === 'tile' ? field('Face size','faceSize',element.faceSize || Math.min(element.w,element.h),'number') + field('Icon size','iconSize',element.iconSize || 44,'number') : ''}</div>` : ''}
       <label class="check-row"><input type="checkbox" name="visible" ${element.visible === false ? '' : 'checked'}> Visible</label>
-      <div class="field-section">Interaction</div>${selectField('Action','actionType',element.action?.type || '', ['','navigate','back','togglePlayback','command'])}${element.action?.type === 'navigate' ? selectField('Target screen','actionTarget',element.action.screen || '', state.project.screens.map(s=>s.id)) : ''}${element.action?.type === 'command' ? field('Command','actionCommand',element.action.command || '') : ''}
+      <div class="field-section">Interaction</div>${selectField('Action','actionType',element.action?.type || '', ['','navigate','back','togglePlayback','command'])}${element.action?.type === 'navigate' ? selectField('Target screen','actionTarget',element.action.screen || '', state.project.screens.map(s=>s.id)) : ''}${element.action?.type === 'command' ? field('Command','actionCommand',element.action.command || '') + selectField('Then open screen','actionAfterTarget',element.action.screen || '', ['',...state.project.screens.map(s=>s.id)]) : ''}
       <div class="inspector-actions"><button type="button" id="duplicate-element">Duplicate</button><button type="button" id="delete-element" class="danger">Delete</button></div>`;
     form.querySelectorAll('input,select,textarea').forEach(input => input.addEventListener('change', inspectorChange));
     $('#duplicate-element').onclick = duplicateElement; $('#delete-element').onclick = deleteElement;
@@ -108,10 +111,11 @@
   function inspectorChange(event) {
     const element = selected(); if (!element) return; checkpoint(); const input = event.target; const key = input.name;
     if (key === 'visible') element.visible = input.checked;
-    else if (['x','y','w','h','radius','padding','fontSize','lineHeight'].includes(key)) element[key] = Math.max(key === 'w' || key === 'h' ? 1 : 0, Number(input.value) || 0);
+    else if (['x','y','w','h','radius','padding','fontSize','lineHeight','exponent','faceSize','iconSize'].includes(key)) element[key] = Math.max(key === 'w' || key === 'h' ? 1 : 0, Number(input.value) || 0);
     else if (key === 'fontWeight') element[key] = Number(input.value);
     else if (key === 'actionType') { element.action = input.value ? {type:input.value} : undefined; if (input.value === 'navigate') element.action.screen = 'home'; if (input.value === 'command') element.action.command = 'custom.command'; }
     else if (key === 'actionTarget') element.action.screen = input.value;
+    else if (key === 'actionAfterTarget') { if(input.value)element.action.screen=input.value;else delete element.action.screen; }
     else if (key === 'actionCommand') element.action.command = input.value;
     else element[key] = input.value;
     changed();
@@ -147,14 +151,14 @@
   }
 
   function buildComponentLibrary() {
-    const types=['text','button','card','icon','image','status','nav','map','media','battery']; const root=$('#component-library');
+    const types=['text','button','tile','shape','card','icon','image','status','nav','map','media','battery']; const root=$('#component-library');
     types.forEach(type=>{const button=document.createElement('button');button.textContent=type[0].toUpperCase()+type.slice(1);button.onclick=()=>addElement(type);root.append(button);});
   }
   function addElement(type) {
     checkpoint(); const count=currentScreen().elements.length+1; const base={id:`${type}-${count}`,type,x:40,y:40,w:120,h:50,visible:true,z:count};
     Object.assign(base, defaultsFor(type)); currentScreen().elements.push(base); state.selectedId=base.id; $('#component-library').hidden=true; changed();
   }
-  function defaultsFor(type) { const common={color:'#111111',background:'#f6f5f2',radius:12}; return {text:{text:'Text',fontSize:18,color:'#ffffff',background:'transparent'},button:{...common,text:'Button',action:{type:'navigate',screen:'home'}},card:{...common,w:180,h:100},icon:{icon:'home',color:'#ffffff',background:'transparent',w:44,h:44},image:{placeholder:'Image',background:'#333333',color:'#ffffff',w:120,h:90},status:{...common,label:'Status',value:'Value',icon:'battery',w:180,h:70},nav:{text:'',icon:'home',color:'#ffffff',background:'#111111',radius:12,w:44,h:40,action:{type:'navigate',screen:'home'}},map:{w:240,h:180},media:{...common,w:246,h:72},battery:{value:'{{device.battery_percent|100}}',color:'#ffffff',background:'transparent',w:70,h:24}}[type] || {}; }
+  function defaultsFor(type) { const common={color:'#111111',background:'#f6f5f2',radius:12}; return {text:{text:'Text',fontSize:18,color:'#ffffff',background:'transparent'},button:{...common,text:'Button',action:{type:'navigate',screen:'home'}},tile:{text:'App',icon:'apps',iconSize:44,faceSize:64,exponent:4.6,color:'#fff',background:'#424950',w:74,h:94,action:{type:'navigate',screen:'home'}},shape:{text:'',background:'#f6f5f2',exponent:4.6,w:120,h:60},card:{...common,w:180,h:100},icon:{icon:'home',color:'#ffffff',background:'transparent',w:44,h:44},image:{placeholder:'Image',background:'#333333',color:'#ffffff',w:120,h:90},status:{...common,label:'Status',value:'Value',icon:'battery',w:180,h:70},nav:{text:'',icon:'home',color:'#ffffff',background:'#111111',radius:12,w:44,h:40,action:{type:'navigate',screen:'home'}},map:{w:240,h:180,zoom:15},media:{...common,w:246,h:72,shape:'superellipse',exponent:5.8},battery:{value:'{{device.battery_percent|100}}',color:'#ffffff',background:'transparent',w:70,h:24}}[type] || {}; }
 
   function duplicateElement(){const element=selected();if(!element)return;checkpoint();const copy=clone(element);copy.id=uniqueId(`${element.id}-copy`);copy.x=clamp(copy.x+8,0,state.project.display.width-copy.w);copy.y=clamp(copy.y+8,0,state.project.display.height-copy.h);currentScreen().elements.push(copy);state.selectedId=copy.id;changed();}
   function deleteElement(){const element=selected();if(!element)return;checkpoint();currentScreen().elements=currentScreen().elements.filter(item=>item.id!==element.id);state.selectedId=null;changed();}
@@ -170,8 +174,61 @@
   function updateHistoryButtons(){$('#undo').disabled=!state.undo.length;$('#redo').disabled=!state.redo.length;}
   function updateSavedState(){$('#save-state').textContent=state.dirty?'Edited':(state.localBackend?'Saved':'Saved locally');}
 
-  function buildSimulationControls(){const fields=[['Device battery','device.battery_percent','range',0,100],['Phone battery','phone.battery_percent','range',0,100],['Phone connection','phone.connection','select',['Connected','Disconnected','Pairing']],['Latitude','gps.lat','number'],['Longitude','gps.lon','number'],['GPS status','gps.status','text'],['Speed km/h','speedKmh','number'],['Temperature °','weather.temperature','number'],['Weather','weather.description','text'],['Track','music.track','text'],['Artist','music.artist','text'],['Playing','music.playing','checkbox'],['Incoming call','call.incoming','checkbox'],['Caller','call.name','text'],['Phone number','call.number','text']];const form=$('#sim-form');fields.forEach(spec=>{const [label,path,type,a,b]=spec;const wrap=document.createElement('label');wrap.textContent=label;let input;if(type==='select'){input=document.createElement('select');a.forEach(v=>input.add(new Option(v,v)));}else{input=document.createElement('input');input.type=type;if(type==='range'){input.min=a;input.max=b;}}input.name=path;setInput(input,getNested(runtime.state,path));input.addEventListener('input',()=>{setNested(runtime.state,path,readInput(input));runtime.render();});wrap.append(input);form.append(wrap);});}
+  function buildSimulationControls(){const fields=[['Device battery','device.battery_percent','range',0,100],['Phone battery','phone.battery_percent','range',0,100],['Phone connected','connection.connected','checkbox'],['Transport','connection.transport','select',['BLE','WIFI','NONE']],['Latitude','gps.lat','number'],['Longitude','gps.lon','number'],['Heading °','gps.heading_deg','number'],['Altitude m','gps.altitude_m','number'],['Speed m/s','gps.speed_mps','number'],['Map zoom','map.zoom','range',1,19],['Temperature °F','weather.temperature_f','number'],['Weather summary','weather.summary','text'],['Track','music.title','text'],['Artist','music.artist','text'],['Music source','music.source','text'],['Playing','music.playing','checkbox'],['Route active','route.active','checkbox'],['Incoming call','call.incoming','checkbox'],['Caller','call.name','text'],['Phone number','call.number','text']];const form=$('#sim-form');fields.forEach(spec=>{const [label,path,type,a,b]=spec;const wrap=document.createElement('label');wrap.textContent=label;let input;if(type==='select'){input=document.createElement('select');a.forEach(v=>input.add(new Option(v,v)));}else{input=document.createElement('input');input.type=type;if(type==='range'){input.min=a;input.max=b;}}input.name=path;setInput(input,getNested(runtime.state,path));input.addEventListener('input',()=>{setNested(runtime.state,path,readInput(input));syncDerivedSimulation(path);runtime.setState({});state.screenId=runtime.screenId;refreshChrome();});wrap.append(input);form.append(wrap);});}
   function resetSimulation(){runtime.state=ActiViewRuntime.defaultState();$$('#sim-form [name]').forEach(input=>setInput(input,getNested(runtime.state,input.name)));runtime.render();}
+
+  async function loadBundledProject(){
+    if(state.dirty&&!confirm('Open the current imported ActiView interface? Unsaved edits in this tab will be replaced. Your previously saved browser project will remain unchanged until you press Save.'))return;
+    try{const project=await ActiViewPlatform.loadBundledProject();state.bundledProject=clone(project);loadProject(project);state.dirty=true;updateSavedState();toast('Current ActiView UI opened. Press Save only when you want it to replace this browser’s saved project.');}
+    catch(error){toast(`Unable to open current UI: ${error.message}`,true);}
+  }
+
+  function syncDerivedSimulation(path){
+    if(path==='gps.speed_mps')runtime.state.speedKmh=Math.round(Number(runtime.state.gps.speed_mps||0)*3.6);
+    if(path==='weather.temperature_f')runtime.state.weather.temperature=Math.round((Number(runtime.state.weather.temperature_f||32)-32)*5/9);
+    if(path==='weather.summary')runtime.state.weather.description=runtime.state.weather.summary;
+    if(path==='music.title')runtime.state.music.track=runtime.state.music.title;
+    if(path==='connection.connected'){
+      runtime.state.phone.connection=runtime.state.connection.connected?'Connected':'Disconnected';
+      runtime.state.connection.message=runtime.state.connection.connected?`Connected over ${String(runtime.state.connection.transport||'BLE').toUpperCase()}`:'Disconnected';
+    }
+    if(path==='connection.transport'&&runtime.state.connection.connected)runtime.state.connection.message=`Connected over ${String(runtime.state.connection.transport||'BLE').toUpperCase()}`;
+    if(path==='route.active'&&runtime.state.route.active&&!runtime.state.route.points.length)runtime.state.route.points=[{lat:runtime.state.gps.lat-0.002,lon:runtime.state.gps.lon-0.001},{lat:runtime.state.gps.lat-0.001,lon:runtime.state.gps.lon+0.0004},{lat:runtime.state.gps.lat,lon:runtime.state.gps.lon}];
+  }
+
+  function simulateCommand(command,current,runtimeRef){
+    const tracks=[['Midnight City','M83'],['Dreams','Fleetwood Mac'],['Heroes','David Bowie']];
+    if(command==='music.prev'||command==='music.next'){
+      let index=tracks.findIndex(([title])=>title===current.music.title);if(index<0)index=0;index=(index+(command==='music.next'?1:-1)+tracks.length)%tracks.length;[current.music.title,current.music.artist]=tracks[index];current.music.track=current.music.title;
+    }else if(command==='music.volume_up')current.music.volume=Math.min(100,Number(current.music.volume||0)+5);
+    else if(command==='music.volume_down')current.music.volume=Math.max(0,Number(current.music.volume||0)-5);
+    else if(command==='map.zoom_in')current.map.zoom=Math.min(19,Number(current.map.zoom||15)+1);
+    else if(command==='map.zoom_out')current.map.zoom=Math.max(1,Number(current.map.zoom||15)-1);
+    else if(command==='map.recenter'){current.map.follow=true;current.map.feedback='Recentered on simulated GPS';}
+    else if(command==='waypoint.add'){current.waypointMessage='Saved Waypoint';current.waypointsText=`Waypoint\n  ${Number(current.gps.lat).toFixed(5)}, ${Number(current.gps.lon).toFixed(5)}\n${current.waypointsText}`;current.map.feedback='Saved waypoint: Waypoint';}
+    else if(command==='route.trackback'){current.route.active=true;current.route.destination='TrackBack';current.route.next_turn='Follow highlighted breadcrumb route';current.route.points=[...current.breadcrumbs].reverse();current.map.feedback='TrackBack route active';}
+    else if(command==='route.stop'){current.route.active=false;current.map.feedback='Route stopped';}
+    else if(command.startsWith('trip.')){
+      const action=command.split('.')[1];if(action==='start'){current.active_trip={name:'Ride',paused:false,points:current.breadcrumbs};current.trip.status='Recording  Ride  3 pts';}else if(action==='pause'&&current.active_trip){current.active_trip.paused=true;current.trip.status='Paused  Ride  3 pts';}else if(action==='resume'&&current.active_trip){current.active_trip.paused=false;current.trip.status='Recording  Ride  3 pts';}else if(action==='reset'){current.active_trip=null;current.trip.status='No active trip. Start recording when you begin moving.';}
+    }else if(command.startsWith('phone.digit.'))current.dialNumber=(String(current.dialNumber||'')+command.slice(12)).slice(-24);
+    else if(command==='phone.clear')current.dialNumber='';
+    else if(command==='phone.dial'){if(current.dialNumber){current.call={...current.call,incoming:false,active:true,status:`Dialing ${current.dialNumber}`,number:current.dialNumber,name:'Outgoing call'};current.phoneFeedback=current.call.status;}}
+    else if(command.startsWith('phone.call.')){const index=Number(command.split('.').at(-1))||0,contact=current.contacts[index]||current.contacts[0];current.call={...current.call,incoming:false,active:true,status:`Calling ${contact.name}`,name:contact.name,number:contact.number};current.phoneFeedback=current.call.status;}
+    else if(command==='phone.find')current.phoneFeedback='Find Phone command queued';
+    else if(command==='phone.accept'||command==='phone.decline')current.phoneFeedback=current.call.status;
+    else if(command==='settings.unit.toggle')current.system.unit=current.system.unit==='kmh'?'ms':'kmh';
+    else if(command==='settings.unit.kmh'||command==='settings.unit.ms')current.system.unit=command.endsWith('ms')?'ms':'kmh';
+    else if(command==='system.reboot')current.system.message='Reboot simulated — no hardware action was performed.';
+    else if(command==='system.poweroff')current.system.message='Power off simulated — no hardware action was performed.';
+    else if(command==='airplay.launch')current.airplay.status='AirPlay receiver started (simulated).\nOn iPhone: Control Center > Screen Mirroring > Actiview.';
+    else if(command==='airplay.stop')current.airplay.status='AirPlay receiver stopped (simulated).';
+    else if(command==='carplay.launch')current.carplay.status='CarPlay launch requested (simulated).\nWaiting for receiver...';
+    else if(command==='sos')current.sos.message='SOS queued (simulated). No message was sent.';
+    current.system.unitLabel=current.system.unit==='ms'?'m/s':'km/h';
+    runtimeRef.render();syncSimulationInputs();toast(`Simulated: ${command}`);
+  }
+
+  function syncSimulationInputs(){$$('#sim-form [name]').forEach(input=>setInput(input,getNested(runtime.state,input.name)));}
 
   async function saveProject(){try{validateProject(state.project);const message=await ActiViewPlatform.saveProject(state.project);state.dirty=false;updateSavedState();toast(message);}catch(error){toast(`Save failed: ${error.message}`,true);}}
   async function exportProject(){try{validateProject(state.project);const blob=await ActiViewPlatform.exportProject(state.project);downloadBlob(blob,`${slug(state.project.name)}.avproject.zip`);toast('Complete editable project downloaded.');}catch(error){toast(`Export failed: ${error.message}`,true);}}

@@ -1,0 +1,151 @@
+{
+  "format": "actiview-project",
+  "formatVersion": 1,
+  "runtimeVersion": "1.0.0",
+  "name": "ActiView",
+  "display": {"width": 480, "height": 320, "orientation": "landscape", "pixelRatio": 1, "safeArea": {"top": 0, "right": 0, "bottom": 0, "left": 0}},
+  "theme": {"background": "#000000", "surface": "#f6f5f2", "surface2": "#e9e8e3", "text": "#111111", "muted": "#777777", "accent": "#ff6600", "positive": "#73ff91", "danger": "#ff4d4d", "fontFamily": "Helvetica, Arial, sans-serif"},
+  "startScreen": "home",
+  "screens": [
+    {"id":"splash","name":"Splash","background":"#000000","elements":[
+      {"id":"splash-title","type":"text","x":80,"y":110,"w":320,"h":55,"text":"ActiView","fontSize":40,"fontWeight":700,"color":"#ffffff","align":"center"},
+      {"id":"splash-sub","type":"text","x":120,"y":176,"w":240,"h":24,"text":"Powered by BA","fontSize":13,"fontWeight":600,"color":"#ff6600","align":"center"}
+    ]},
+    {"id":"pairing","name":"Phone pairing","background":"#000000","elements":[
+      {"id":"pair-title","type":"text","x":30,"y":30,"w":420,"h":38,"text":"Connect your phone","fontSize":26,"fontWeight":700,"color":"#ffffff","align":"center"},
+      {"id":"pair-icon","type":"icon","x":200,"y":88,"w":80,"h":80,"icon":"bluetooth","color":"#ff6600"},
+      {"id":"pair-copy","type":"text","x":45,"y":188,"w":390,"h":48,"text":"Open ActiView Companion and connect to “Actiview”.","fontSize":15,"lineHeight":20,"color":"#d0d0d0","align":"center"},
+      {"id":"pair-home","type":"button","x":174,"y":254,"w":132,"h":44,"text":"Continue offline","fontSize":12,"fontWeight":700,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"home","name":"Home","background":"#000000","elements":[
+      {"id":"home-map","type":"map","x":0,"y":0,"w":210,"h":320,"zoom":15,"action":{"type":"navigate","screen":"map"}},
+      {"id":"speed-card","type":"status","x":226,"y":18,"w":64,"h":78,"label":"Speed","value":"{{speedKmh|0}}","suffix":"km/h","icon":"speed","background":"#247f96","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"speed"}},
+      {"id":"weather-card","type":"status","x":313,"y":18,"w":64,"h":78,"label":"Weather","value":"{{weather.temperature|--}}","suffix":"°","icon":"weather","background":"#3f95cf","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"weather"}},
+      {"id":"phone-card","type":"status","x":400,"y":18,"w":64,"h":78,"label":"Phone","value":"{{phone.battery_percent|--}}","suffix":"%","icon":"phone","background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"status"}},
+      {"id":"music-card","type":"media","x":222,"y":108,"w":246,"h":72,"background":"#ffffff","color":"#111111","radius":18,"action":{"type":"navigate","screen":"music"}},
+      {"id":"call-button","type":"button","x":232,"y":195,"w":56,"h":72,"text":"Call","icon":"phone","fontSize":10,"fontWeight":700,"background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"phone"}},
+      {"id":"settings-button","type":"button","x":317,"y":195,"w":56,"h":72,"text":"Settings","icon":"settings","fontSize":9,"fontWeight":700,"background":"#343942","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"settings"}},
+      {"id":"apps-button","type":"button","x":402,"y":195,"w":56,"h":72,"text":"Apps","icon":"home","fontSize":10,"fontWeight":700,"background":"#424950","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"apps"}},
+      {"id":"home-time","type":"text","x":222,"y":288,"w":78,"h":24,"text":"{{time|12:00}}","fontSize":16,"color":"#ffffff"},
+      {"id":"device-battery","type":"battery","x":320,"y":291,"w":62,"h":20,"value":"{{device.battery_percent|100}}","color":"#ffffff"},
+      {"id":"phone-footer","type":"text","x":386,"y":291,"w":80,"h":20,"text":"Phone {{phone.battery_percent|--}}%","fontSize":10,"color":"#ffffff","align":"right"}
+    ]},
+    {"id":"apps","name":"App launcher","background":"#000000","elements":[
+      {"id":"apps-title","type":"text","x":20,"y":14,"w":220,"h":34,"text":"Apps","fontSize":22,"fontWeight":700,"color":"#ffffff"},
+      {"id":"app-map","type":"button","x":20,"y":62,"w":68,"h":78,"text":"Map","icon":"map","background":"#168a98","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"map"}},
+      {"id":"app-music","type":"button","x":112,"y":62,"w":68,"h":78,"text":"Music","icon":"music","background":"#a43e45","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"music"}},
+      {"id":"app-speed","type":"button","x":204,"y":62,"w":68,"h":78,"text":"Speed","icon":"speed","background":"#247f96","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"speed"}},
+      {"id":"app-weather","type":"button","x":296,"y":62,"w":68,"h":78,"text":"Weather","icon":"weather","background":"#3f95cf","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"weather"}},
+      {"id":"app-phone","type":"button","x":388,"y":62,"w":68,"h":78,"text":"Phone","icon":"phone","background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"phone"}},
+      {"id":"app-trip","type":"button","x":20,"y":164,"w":68,"h":78,"text":"Trip","icon":"gps","background":"#4f9370","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"trip"}},
+      {"id":"app-waypoints","type":"button","x":112,"y":164,"w":68,"h":78,"text":"Places","icon":"gps","background":"#667075","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"waypoints"}},
+      {"id":"app-airplay","type":"button","x":204,"y":164,"w":68,"h":78,"text":"AirPlay","icon":"wifi","background":"#527e9c","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"airplay"}},
+      {"id":"app-carplay","type":"button","x":296,"y":164,"w":68,"h":78,"text":"CarPlay","icon":"phone","background":"#3e434c","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"carplay"}},
+      {"id":"app-settings","type":"button","x":388,"y":164,"w":68,"h":78,"text":"Settings","icon":"settings","background":"#343942","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"settings"}},
+      {"id":"apps-home","type":"nav","x":414,"y":270,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"map","name":"Map & navigation","background":"#111111","elements":[
+      {"id":"full-map","type":"map","x":0,"y":0,"w":480,"h":270,"zoom":15},
+      {"id":"map-speed","type":"text","x":16,"y":18,"w":112,"h":45,"text":"{{speedKmh|0}} km/h","fontSize":22,"fontWeight":700,"color":"#ffffff","background":"#000000cc","radius":12,"padding":9},
+      {"id":"gps-state","type":"status","x":344,"y":18,"w":120,"h":45,"label":"GPS","value":"{{gps.status|No fix}}","icon":"gps","fontSize":11,"background":"#111111dd","color":"#ffffff","radius":12},
+      {"id":"waypoint-action","type":"button","x":16,"y":212,"w":128,"h":42,"text":"Save waypoint","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"waypoint.add"}},
+      {"id":"map-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"speed","name":"Speed","background":"#000000","elements":[
+      {"id":"speed-label","type":"text","x":20,"y":20,"w":180,"h":34,"text":"Current speed","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"speed-value","type":"text","x":40,"y":66,"w":400,"h":130,"text":"{{speedKmh|0}}","fontSize":104,"fontWeight":700,"color":"#ffffff","align":"center"},
+      {"id":"speed-unit","type":"text","x":140,"y":202,"w":200,"h":40,"text":"km/h","fontSize":24,"fontWeight":700,"color":"#ff6600","align":"center"},
+      {"id":"speed-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"music","name":"Music","background":"#000000","elements":[
+      {"id":"music-title","type":"text","x":24,"y":16,"w":240,"h":32,"text":"Now playing","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"music-art","type":"image","x":24,"y":62,"w":170,"h":170,"src":"","placeholder":"♪","background":"#2d3035","radius":18},
+      {"id":"music-track","type":"text","x":220,"y":72,"w":232,"h":56,"text":"{{music.track|No song}}","fontSize":22,"fontWeight":700,"lineHeight":26,"color":"#ffffff"},
+      {"id":"music-artist","type":"text","x":220,"y":130,"w":232,"h":36,"text":"{{music.artist|--}}","fontSize":15,"color":"#aaaaaa"},
+      {"id":"previous","type":"button","x":220,"y":188,"w":58,"h":50,"text":"◀◀","fontSize":18,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"previous"}},
+      {"id":"play","type":"button","x":294,"y":180,"w":68,"h":66,"text":"{{music.playing|▶}}","fontSize":28,"background":"#ff6600","color":"#ffffff","radius":18,"action":{"type":"togglePlayback"}},
+      {"id":"next","type":"button","x":378,"y":188,"w":58,"h":50,"text":"▶▶","fontSize":18,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"next"}},
+      {"id":"music-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"weather","name":"Weather","background":"#000000","elements":[
+      {"id":"weather-heading","type":"text","x":24,"y":18,"w":200,"h":34,"text":"Weather","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"weather-card-main","type":"card","x":28,"y":62,"w":196,"h":184,"background":"#f6f5f2","radius":18},
+      {"id":"weather-icon","type":"icon","x":94,"y":78,"w":64,"h":64,"icon":"weather","color":"#ff6600"},
+      {"id":"weather-temp","type":"text","x":48,"y":145,"w":156,"h":42,"text":"{{weather.temperature|--}}°","fontSize":30,"fontWeight":700,"color":"#111111","align":"center"},
+      {"id":"weather-desc","type":"text","x":48,"y":190,"w":156,"h":40,"text":"{{weather.description|No data}}","fontSize":13,"color":"#555555","align":"center"},
+      {"id":"phone-weather-card","type":"card","x":256,"y":62,"w":196,"h":184,"background":"#f6f5f2","radius":18},
+      {"id":"weather-phone-icon","type":"icon","x":322,"y":78,"w":64,"h":64,"icon":"phone","color":"#ff6600"},
+      {"id":"weather-phone-name","type":"text","x":276,"y":150,"w":156,"h":30,"text":"{{phone.name|Phone}}","fontSize":20,"fontWeight":700,"color":"#111111","align":"center"},
+      {"id":"weather-phone-battery","type":"text","x":276,"y":190,"w":156,"h":30,"text":"{{phone.battery_percent|--}}%","fontSize":15,"fontWeight":700,"color":"#111111","align":"center"},
+      {"id":"weather-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"status","name":"Device & phone status","background":"#000000","elements":[
+      {"id":"status-title","type":"text","x":24,"y":18,"w":300,"h":34,"text":"System status","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"device-status","type":"status","x":24,"y":68,"w":204,"h":94,"label":"ActiView battery","value":"{{device.battery_percent|100}}","suffix":"%","icon":"battery","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"phone-status","type":"status","x":252,"y":68,"w":204,"h":94,"label":"Phone battery","value":"{{phone.battery_percent|--}}","suffix":"%","icon":"phone","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"connection-status","type":"status","x":24,"y":180,"w":432,"h":70,"label":"Phone connection","value":"{{phone.connection|Disconnected}}","icon":"bluetooth","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"status-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"trip","name":"Trip","background":"#000000","elements":[
+      {"id":"trip-title","type":"text","x":24,"y":18,"w":200,"h":34,"text":"Trip","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"trip-time","type":"text","x":40,"y":66,"w":400,"h":70,"text":"{{trip.elapsed|00:00:00}}","fontSize":52,"fontWeight":700,"color":"#ffffff","align":"center"},
+      {"id":"trip-distance","type":"status","x":45,"y":150,"w":170,"h":72,"label":"Distance","value":"{{trip.distance_km|0.0}}","suffix":" km","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"trip-speed","type":"status","x":265,"y":150,"w":170,"h":72,"label":"Current speed","value":"{{speedKmh|0}}","suffix":" km/h","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"trip-toggle","type":"button","x":170,"y":242,"w":140,"h":44,"text":"Start / pause","background":"#ff6600","color":"#ffffff","radius":14,"action":{"type":"command","command":"trip.toggle"}},
+      {"id":"trip-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"waypoints","name":"Waypoints","background":"#000000","elements":[
+      {"id":"waypoint-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Waypoints","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"save-place","type":"button","x":24,"y":64,"w":432,"h":44,"text":"Save current location","background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"waypoint.add"}},
+      {"id":"places-list","type":"text","x":24,"y":130,"w":432,"h":128,"text":"{{waypointsText|No saved waypoints.}}","fontSize":12,"lineHeight":20,"padding":14,"background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"places-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"settings","name":"Settings & power","background":"#000000","elements":[
+      {"id":"settings-title","type":"text","x":24,"y":18,"w":250,"h":34,"text":"Settings","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"brightness","type":"button","x":24,"y":66,"w":204,"h":62,"text":"Brightness","icon":"brightness","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"command","command":"brightness.cycle"}},
+      {"id":"bluetooth","type":"button","x":252,"y":66,"w":204,"h":62,"text":"Phone pairing","icon":"bluetooth","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"navigate","screen":"pairing"}},
+      {"id":"restart","type":"button","x":24,"y":148,"w":204,"h":62,"text":"Restart UI","icon":"restart","background":"#3b3f46","color":"#ffffff","radius":16,"action":{"type":"command","command":"system.restart-ui"}},
+      {"id":"power","type":"button","x":252,"y":148,"w":204,"h":62,"text":"Power off","icon":"power","background":"#351414","color":"#ff8b8b","radius":16,"action":{"type":"command","command":"system.poweroff"}},
+      {"id":"settings-note","type":"text","x":24,"y":228,"w":360,"h":38,"text":"Hardware actions require confirmation on the device.","fontSize":11,"color":"#999999"},
+      {"id":"settings-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"phone","name":"Phone & calls","background":"#000000","elements":[
+      {"id":"phone-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Phone","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"phone-state","type":"status","x":24,"y":62,"w":432,"h":72,"label":"Connection","value":"{{phone.connection|Disconnected}}","icon":"phone","background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"contacts-button","type":"button","x":24,"y":154,"w":204,"h":60,"text":"Contacts","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"navigate","screen":"contacts"}},
+      {"id":"redial-button","type":"button","x":252,"y":154,"w":204,"h":60,"text":"Redial","background":"#3d9a61","color":"#ffffff","radius":16,"action":{"type":"command","command":"phone.redial"}},
+      {"id":"phone-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"contacts","name":"Contacts","background":"#000000","elements":[
+      {"id":"contacts-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Contacts","fontSize":17,"fontWeight":700,"color":"#ffffff"},
+      {"id":"contacts-list","type":"text","x":24,"y":62,"w":432,"h":194,"text":"{{contactsText|No contacts received from phone.}}","fontSize":14,"lineHeight":26,"padding":16,"background":"#f6f5f2","color":"#111111","radius":18},
+      {"id":"contacts-back","type":"button","x":24,"y":272,"w":90,"h":36,"text":"Back","background":"#2c2c2e","color":"#ffffff","radius":12,"action":{"type":"navigate","screen":"phone"}},
+      {"id":"contacts-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"sos","name":"SOS","background":"#000000","elements":[
+      {"id":"sos-title","type":"text","x":24,"y":26,"w":432,"h":42,"text":"Emergency relay","fontSize":28,"fontWeight":700,"color":"#ffffff","align":"center"},
+      {"id":"sos-copy","type":"text","x":48,"y":90,"w":384,"h":65,"text":"Ask the connected phone to prepare an SOS message with your location.","fontSize":16,"lineHeight":22,"color":"#cccccc","align":"center"},
+      {"id":"sos-send","type":"button","x":112,"y":178,"w":256,"h":66,"text":"Send SOS to phone","fontSize":18,"fontWeight":700,"background":"#8c1d1d","color":"#ffffff","radius":18,"action":{"type":"command","command":"sos"}},
+      {"id":"sos-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"airplay","name":"AirPlay","background":"#000000","elements":[
+      {"id":"airplay-title","type":"text","x":26,"y":34,"w":240,"h":38,"text":"AirPlay","fontSize":24,"fontWeight":700,"color":"#ffffff"},
+      {"id":"airplay-sub","type":"text","x":28,"y":72,"w":240,"h":24,"text":"screen mirroring","fontSize":12,"fontWeight":700,"color":"#ff6600"},
+      {"id":"airplay-info","type":"text","x":28,"y":108,"w":424,"h":96,"text":"AirPlay requires UxPlay on the device. This control launches the configured receiver.","fontSize":15,"lineHeight":21,"padding":16,"background":"#f6f5f2","color":"#111111","radius":16},
+      {"id":"airplay-launch","type":"button","x":28,"y":222,"w":132,"h":40,"text":"Launch","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"airplay.launch"}},
+      {"id":"airplay-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"carplay","name":"CarPlay","background":"#000000","elements":[
+      {"id":"carplay-title","type":"text","x":26,"y":34,"w":240,"h":38,"text":"CarPlay","fontSize":24,"fontWeight":700,"color":"#ffffff"},
+      {"id":"carplay-sub","type":"text","x":28,"y":72,"w":240,"h":24,"text":"optional app","fontSize":12,"fontWeight":700,"color":"#ff6600"},
+      {"id":"carplay-info","type":"text","x":28,"y":108,"w":424,"h":96,"text":"CarPlay is not installed by ActiView. Launches only a separately configured receiver.","fontSize":15,"lineHeight":21,"padding":16,"background":"#f6f5f2","color":"#111111","radius":16},
+      {"id":"carplay-launch","type":"button","x":28,"y":222,"w":132,"h":40,"text":"Launch","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"carplay.launch"}},
+      {"id":"carplay-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]},
+    {"id":"android_auto","name":"Android Auto","background":"#000000","elements":[
+      {"id":"aa-title","type":"text","x":26,"y":34,"w":300,"h":38,"text":"Android Auto","fontSize":24,"fontWeight":700,"color":"#ffffff"},
+      {"id":"aa-status","type":"text","x":28,"y":112,"w":424,"h":104,"text":"Android Auto is not configured on this build. ActiView’s own dashboard stays available.","fontSize":15,"lineHeight":22,"padding":18,"background":"#f6f5f2","color":"#111111","radius":16},
+      {"id":"aa-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
+    ]}
+  ]
+}

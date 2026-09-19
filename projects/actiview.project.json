@@ -1,151 +1,4365 @@
 {
   "format": "actiview-project",
   "formatVersion": 1,
-  "runtimeVersion": "1.0.0",
-  "name": "ActiView",
-  "display": {"width": 480, "height": 320, "orientation": "landscape", "pixelRatio": 1, "safeArea": {"top": 0, "right": 0, "bottom": 0, "left": 0}},
-  "theme": {"background": "#000000", "surface": "#f6f5f2", "surface2": "#e9e8e3", "text": "#111111", "muted": "#777777", "accent": "#ff6600", "positive": "#73ff91", "danger": "#ff4d4d", "fontFamily": "Helvetica, Arial, sans-serif"},
+  "runtimeVersion": "1.1.0",
+  "name": "ActiView Current UI · 2026-05-24",
+  "projectVersion": "2026.05.24-local-import",
+  "sourceRevision": "bf0254bf6b3f577fd65857bfe460d556592ace5506c17b7368ffc2a5ac3e129e",
+  "source": {
+    "kind": "active-local-tkinter",
+    "entrypoint": "actiview-rpi/ui/app.py",
+    "launch": "actiview-rpi/launch_ui.sh",
+    "displayService": "actiview-rpi/services/systemd/actiview_gui.service",
+    "verifiedFromLocalFiles": true,
+    "liveDeviceVerified": false,
+    "files": [
+      "services/systemd/actiview_gui.service",
+      "launch_ui.sh",
+      "ui/app.py",
+      "ui/theme.py",
+      "ui/screens/home.py",
+      "ui/screens/map.py",
+      "ui/screens/music.py",
+      "ui/screens/speed.py",
+      "ui/screens/weather_status.py",
+      "ui/screens/status.py",
+      "ui/screens/trip.py",
+      "ui/screens/waypoints.py",
+      "ui/screens/settings.py",
+      "ui/screens/phone.py",
+      "ui/screens/sos.py",
+      "ui/screens/airplay.py",
+      "ui/screens/carplay.py",
+      "ui/screens/android_auto.py",
+      "ui/widgets/splash.py",
+      "ui/widgets/superellipse.py"
+    ]
+  },
+  "display": {
+    "width": 480,
+    "height": 320,
+    "orientation": "landscape",
+    "pixelRatio": 1,
+    "safeArea": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "theme": {
+    "background": "#000000",
+    "surface": "#f6f5f2",
+    "surface2": "#e9e8e3",
+    "text": "#111111",
+    "muted": "#777777",
+    "accent": "#ff6600",
+    "positive": "#73ff91",
+    "danger": "#ff4d4d",
+    "fontFamily": "Helvetica, Arial, sans-serif"
+  },
   "startScreen": "home",
   "screens": [
-    {"id":"splash","name":"Splash","background":"#000000","elements":[
-      {"id":"splash-title","type":"text","x":80,"y":110,"w":320,"h":55,"text":"ActiView","fontSize":40,"fontWeight":700,"color":"#ffffff","align":"center"},
-      {"id":"splash-sub","type":"text","x":120,"y":176,"w":240,"h":24,"text":"Powered by BA","fontSize":13,"fontWeight":600,"color":"#ff6600","align":"center"}
-    ]},
-    {"id":"pairing","name":"Phone pairing","background":"#000000","elements":[
-      {"id":"pair-title","type":"text","x":30,"y":30,"w":420,"h":38,"text":"Connect your phone","fontSize":26,"fontWeight":700,"color":"#ffffff","align":"center"},
-      {"id":"pair-icon","type":"icon","x":200,"y":88,"w":80,"h":80,"icon":"bluetooth","color":"#ff6600"},
-      {"id":"pair-copy","type":"text","x":45,"y":188,"w":390,"h":48,"text":"Open ActiView Companion and connect to “Actiview”.","fontSize":15,"lineHeight":20,"color":"#d0d0d0","align":"center"},
-      {"id":"pair-home","type":"button","x":174,"y":254,"w":132,"h":44,"text":"Continue offline","fontSize":12,"fontWeight":700,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"home","name":"Home","background":"#000000","elements":[
-      {"id":"home-map","type":"map","x":0,"y":0,"w":210,"h":320,"zoom":15,"action":{"type":"navigate","screen":"map"}},
-      {"id":"speed-card","type":"status","x":226,"y":18,"w":64,"h":78,"label":"Speed","value":"{{speedKmh|0}}","suffix":"km/h","icon":"speed","background":"#247f96","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"speed"}},
-      {"id":"weather-card","type":"status","x":313,"y":18,"w":64,"h":78,"label":"Weather","value":"{{weather.temperature|--}}","suffix":"°","icon":"weather","background":"#3f95cf","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"weather"}},
-      {"id":"phone-card","type":"status","x":400,"y":18,"w":64,"h":78,"label":"Phone","value":"{{phone.battery_percent|--}}","suffix":"%","icon":"phone","background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"status"}},
-      {"id":"music-card","type":"media","x":222,"y":108,"w":246,"h":72,"background":"#ffffff","color":"#111111","radius":18,"action":{"type":"navigate","screen":"music"}},
-      {"id":"call-button","type":"button","x":232,"y":195,"w":56,"h":72,"text":"Call","icon":"phone","fontSize":10,"fontWeight":700,"background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"phone"}},
-      {"id":"settings-button","type":"button","x":317,"y":195,"w":56,"h":72,"text":"Settings","icon":"settings","fontSize":9,"fontWeight":700,"background":"#343942","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"settings"}},
-      {"id":"apps-button","type":"button","x":402,"y":195,"w":56,"h":72,"text":"Apps","icon":"home","fontSize":10,"fontWeight":700,"background":"#424950","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"apps"}},
-      {"id":"home-time","type":"text","x":222,"y":288,"w":78,"h":24,"text":"{{time|12:00}}","fontSize":16,"color":"#ffffff"},
-      {"id":"device-battery","type":"battery","x":320,"y":291,"w":62,"h":20,"value":"{{device.battery_percent|100}}","color":"#ffffff"},
-      {"id":"phone-footer","type":"text","x":386,"y":291,"w":80,"h":20,"text":"Phone {{phone.battery_percent|--}}%","fontSize":10,"color":"#ffffff","align":"right"}
-    ]},
-    {"id":"apps","name":"App launcher","background":"#000000","elements":[
-      {"id":"apps-title","type":"text","x":20,"y":14,"w":220,"h":34,"text":"Apps","fontSize":22,"fontWeight":700,"color":"#ffffff"},
-      {"id":"app-map","type":"button","x":20,"y":62,"w":68,"h":78,"text":"Map","icon":"map","background":"#168a98","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"map"}},
-      {"id":"app-music","type":"button","x":112,"y":62,"w":68,"h":78,"text":"Music","icon":"music","background":"#a43e45","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"music"}},
-      {"id":"app-speed","type":"button","x":204,"y":62,"w":68,"h":78,"text":"Speed","icon":"speed","background":"#247f96","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"speed"}},
-      {"id":"app-weather","type":"button","x":296,"y":62,"w":68,"h":78,"text":"Weather","icon":"weather","background":"#3f95cf","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"weather"}},
-      {"id":"app-phone","type":"button","x":388,"y":62,"w":68,"h":78,"text":"Phone","icon":"phone","background":"#3d9a61","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"phone"}},
-      {"id":"app-trip","type":"button","x":20,"y":164,"w":68,"h":78,"text":"Trip","icon":"gps","background":"#4f9370","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"trip"}},
-      {"id":"app-waypoints","type":"button","x":112,"y":164,"w":68,"h":78,"text":"Places","icon":"gps","background":"#667075","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"waypoints"}},
-      {"id":"app-airplay","type":"button","x":204,"y":164,"w":68,"h":78,"text":"AirPlay","icon":"wifi","background":"#527e9c","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"airplay"}},
-      {"id":"app-carplay","type":"button","x":296,"y":164,"w":68,"h":78,"text":"CarPlay","icon":"phone","background":"#3e434c","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"carplay"}},
-      {"id":"app-settings","type":"button","x":388,"y":164,"w":68,"h":78,"text":"Settings","icon":"settings","background":"#343942","color":"#ffffff","radius":18,"action":{"type":"navigate","screen":"settings"}},
-      {"id":"apps-home","type":"nav","x":414,"y":270,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"map","name":"Map & navigation","background":"#111111","elements":[
-      {"id":"full-map","type":"map","x":0,"y":0,"w":480,"h":270,"zoom":15},
-      {"id":"map-speed","type":"text","x":16,"y":18,"w":112,"h":45,"text":"{{speedKmh|0}} km/h","fontSize":22,"fontWeight":700,"color":"#ffffff","background":"#000000cc","radius":12,"padding":9},
-      {"id":"gps-state","type":"status","x":344,"y":18,"w":120,"h":45,"label":"GPS","value":"{{gps.status|No fix}}","icon":"gps","fontSize":11,"background":"#111111dd","color":"#ffffff","radius":12},
-      {"id":"waypoint-action","type":"button","x":16,"y":212,"w":128,"h":42,"text":"Save waypoint","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"waypoint.add"}},
-      {"id":"map-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"speed","name":"Speed","background":"#000000","elements":[
-      {"id":"speed-label","type":"text","x":20,"y":20,"w":180,"h":34,"text":"Current speed","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"speed-value","type":"text","x":40,"y":66,"w":400,"h":130,"text":"{{speedKmh|0}}","fontSize":104,"fontWeight":700,"color":"#ffffff","align":"center"},
-      {"id":"speed-unit","type":"text","x":140,"y":202,"w":200,"h":40,"text":"km/h","fontSize":24,"fontWeight":700,"color":"#ff6600","align":"center"},
-      {"id":"speed-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"music","name":"Music","background":"#000000","elements":[
-      {"id":"music-title","type":"text","x":24,"y":16,"w":240,"h":32,"text":"Now playing","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"music-art","type":"image","x":24,"y":62,"w":170,"h":170,"src":"","placeholder":"♪","background":"#2d3035","radius":18},
-      {"id":"music-track","type":"text","x":220,"y":72,"w":232,"h":56,"text":"{{music.track|No song}}","fontSize":22,"fontWeight":700,"lineHeight":26,"color":"#ffffff"},
-      {"id":"music-artist","type":"text","x":220,"y":130,"w":232,"h":36,"text":"{{music.artist|--}}","fontSize":15,"color":"#aaaaaa"},
-      {"id":"previous","type":"button","x":220,"y":188,"w":58,"h":50,"text":"◀◀","fontSize":18,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"previous"}},
-      {"id":"play","type":"button","x":294,"y":180,"w":68,"h":66,"text":"{{music.playing|▶}}","fontSize":28,"background":"#ff6600","color":"#ffffff","radius":18,"action":{"type":"togglePlayback"}},
-      {"id":"next","type":"button","x":378,"y":188,"w":58,"h":50,"text":"▶▶","fontSize":18,"background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"next"}},
-      {"id":"music-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"weather","name":"Weather","background":"#000000","elements":[
-      {"id":"weather-heading","type":"text","x":24,"y":18,"w":200,"h":34,"text":"Weather","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"weather-card-main","type":"card","x":28,"y":62,"w":196,"h":184,"background":"#f6f5f2","radius":18},
-      {"id":"weather-icon","type":"icon","x":94,"y":78,"w":64,"h":64,"icon":"weather","color":"#ff6600"},
-      {"id":"weather-temp","type":"text","x":48,"y":145,"w":156,"h":42,"text":"{{weather.temperature|--}}°","fontSize":30,"fontWeight":700,"color":"#111111","align":"center"},
-      {"id":"weather-desc","type":"text","x":48,"y":190,"w":156,"h":40,"text":"{{weather.description|No data}}","fontSize":13,"color":"#555555","align":"center"},
-      {"id":"phone-weather-card","type":"card","x":256,"y":62,"w":196,"h":184,"background":"#f6f5f2","radius":18},
-      {"id":"weather-phone-icon","type":"icon","x":322,"y":78,"w":64,"h":64,"icon":"phone","color":"#ff6600"},
-      {"id":"weather-phone-name","type":"text","x":276,"y":150,"w":156,"h":30,"text":"{{phone.name|Phone}}","fontSize":20,"fontWeight":700,"color":"#111111","align":"center"},
-      {"id":"weather-phone-battery","type":"text","x":276,"y":190,"w":156,"h":30,"text":"{{phone.battery_percent|--}}%","fontSize":15,"fontWeight":700,"color":"#111111","align":"center"},
-      {"id":"weather-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"status","name":"Device & phone status","background":"#000000","elements":[
-      {"id":"status-title","type":"text","x":24,"y":18,"w":300,"h":34,"text":"System status","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"device-status","type":"status","x":24,"y":68,"w":204,"h":94,"label":"ActiView battery","value":"{{device.battery_percent|100}}","suffix":"%","icon":"battery","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"phone-status","type":"status","x":252,"y":68,"w":204,"h":94,"label":"Phone battery","value":"{{phone.battery_percent|--}}","suffix":"%","icon":"phone","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"connection-status","type":"status","x":24,"y":180,"w":432,"h":70,"label":"Phone connection","value":"{{phone.connection|Disconnected}}","icon":"bluetooth","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"status-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"trip","name":"Trip","background":"#000000","elements":[
-      {"id":"trip-title","type":"text","x":24,"y":18,"w":200,"h":34,"text":"Trip","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"trip-time","type":"text","x":40,"y":66,"w":400,"h":70,"text":"{{trip.elapsed|00:00:00}}","fontSize":52,"fontWeight":700,"color":"#ffffff","align":"center"},
-      {"id":"trip-distance","type":"status","x":45,"y":150,"w":170,"h":72,"label":"Distance","value":"{{trip.distance_km|0.0}}","suffix":" km","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"trip-speed","type":"status","x":265,"y":150,"w":170,"h":72,"label":"Current speed","value":"{{speedKmh|0}}","suffix":" km/h","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"trip-toggle","type":"button","x":170,"y":242,"w":140,"h":44,"text":"Start / pause","background":"#ff6600","color":"#ffffff","radius":14,"action":{"type":"command","command":"trip.toggle"}},
-      {"id":"trip-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"waypoints","name":"Waypoints","background":"#000000","elements":[
-      {"id":"waypoint-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Waypoints","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"save-place","type":"button","x":24,"y":64,"w":432,"h":44,"text":"Save current location","background":"#f6f5f2","color":"#111111","radius":14,"action":{"type":"command","command":"waypoint.add"}},
-      {"id":"places-list","type":"text","x":24,"y":130,"w":432,"h":128,"text":"{{waypointsText|No saved waypoints.}}","fontSize":12,"lineHeight":20,"padding":14,"background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"places-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"settings","name":"Settings & power","background":"#000000","elements":[
-      {"id":"settings-title","type":"text","x":24,"y":18,"w":250,"h":34,"text":"Settings","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"brightness","type":"button","x":24,"y":66,"w":204,"h":62,"text":"Brightness","icon":"brightness","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"command","command":"brightness.cycle"}},
-      {"id":"bluetooth","type":"button","x":252,"y":66,"w":204,"h":62,"text":"Phone pairing","icon":"bluetooth","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"navigate","screen":"pairing"}},
-      {"id":"restart","type":"button","x":24,"y":148,"w":204,"h":62,"text":"Restart UI","icon":"restart","background":"#3b3f46","color":"#ffffff","radius":16,"action":{"type":"command","command":"system.restart-ui"}},
-      {"id":"power","type":"button","x":252,"y":148,"w":204,"h":62,"text":"Power off","icon":"power","background":"#351414","color":"#ff8b8b","radius":16,"action":{"type":"command","command":"system.poweroff"}},
-      {"id":"settings-note","type":"text","x":24,"y":228,"w":360,"h":38,"text":"Hardware actions require confirmation on the device.","fontSize":11,"color":"#999999"},
-      {"id":"settings-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"phone","name":"Phone & calls","background":"#000000","elements":[
-      {"id":"phone-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Phone","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"phone-state","type":"status","x":24,"y":62,"w":432,"h":72,"label":"Connection","value":"{{phone.connection|Disconnected}}","icon":"phone","background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"contacts-button","type":"button","x":24,"y":154,"w":204,"h":60,"text":"Contacts","background":"#f6f5f2","color":"#111111","radius":16,"action":{"type":"navigate","screen":"contacts"}},
-      {"id":"redial-button","type":"button","x":252,"y":154,"w":204,"h":60,"text":"Redial","background":"#3d9a61","color":"#ffffff","radius":16,"action":{"type":"command","command":"phone.redial"}},
-      {"id":"phone-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"contacts","name":"Contacts","background":"#000000","elements":[
-      {"id":"contacts-title","type":"text","x":24,"y":18,"w":220,"h":34,"text":"Contacts","fontSize":17,"fontWeight":700,"color":"#ffffff"},
-      {"id":"contacts-list","type":"text","x":24,"y":62,"w":432,"h":194,"text":"{{contactsText|No contacts received from phone.}}","fontSize":14,"lineHeight":26,"padding":16,"background":"#f6f5f2","color":"#111111","radius":18},
-      {"id":"contacts-back","type":"button","x":24,"y":272,"w":90,"h":36,"text":"Back","background":"#2c2c2e","color":"#ffffff","radius":12,"action":{"type":"navigate","screen":"phone"}},
-      {"id":"contacts-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"sos","name":"SOS","background":"#000000","elements":[
-      {"id":"sos-title","type":"text","x":24,"y":26,"w":432,"h":42,"text":"Emergency relay","fontSize":28,"fontWeight":700,"color":"#ffffff","align":"center"},
-      {"id":"sos-copy","type":"text","x":48,"y":90,"w":384,"h":65,"text":"Ask the connected phone to prepare an SOS message with your location.","fontSize":16,"lineHeight":22,"color":"#cccccc","align":"center"},
-      {"id":"sos-send","type":"button","x":112,"y":178,"w":256,"h":66,"text":"Send SOS to phone","fontSize":18,"fontWeight":700,"background":"#8c1d1d","color":"#ffffff","radius":18,"action":{"type":"command","command":"sos"}},
-      {"id":"sos-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"airplay","name":"AirPlay","background":"#000000","elements":[
-      {"id":"airplay-title","type":"text","x":26,"y":34,"w":240,"h":38,"text":"AirPlay","fontSize":24,"fontWeight":700,"color":"#ffffff"},
-      {"id":"airplay-sub","type":"text","x":28,"y":72,"w":240,"h":24,"text":"screen mirroring","fontSize":12,"fontWeight":700,"color":"#ff6600"},
-      {"id":"airplay-info","type":"text","x":28,"y":108,"w":424,"h":96,"text":"AirPlay requires UxPlay on the device. This control launches the configured receiver.","fontSize":15,"lineHeight":21,"padding":16,"background":"#f6f5f2","color":"#111111","radius":16},
-      {"id":"airplay-launch","type":"button","x":28,"y":222,"w":132,"h":40,"text":"Launch","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"airplay.launch"}},
-      {"id":"airplay-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"carplay","name":"CarPlay","background":"#000000","elements":[
-      {"id":"carplay-title","type":"text","x":26,"y":34,"w":240,"h":38,"text":"CarPlay","fontSize":24,"fontWeight":700,"color":"#ffffff"},
-      {"id":"carplay-sub","type":"text","x":28,"y":72,"w":240,"h":24,"text":"optional app","fontSize":12,"fontWeight":700,"color":"#ff6600"},
-      {"id":"carplay-info","type":"text","x":28,"y":108,"w":424,"h":96,"text":"CarPlay is not installed by ActiView. Launches only a separately configured receiver.","fontSize":15,"lineHeight":21,"padding":16,"background":"#f6f5f2","color":"#111111","radius":16},
-      {"id":"carplay-launch","type":"button","x":28,"y":222,"w":132,"h":40,"text":"Launch","background":"#f6f5f2","color":"#111111","radius":13,"action":{"type":"command","command":"carplay.launch"}},
-      {"id":"carplay-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]},
-    {"id":"android_auto","name":"Android Auto","background":"#000000","elements":[
-      {"id":"aa-title","type":"text","x":26,"y":34,"w":300,"h":38,"text":"Android Auto","fontSize":24,"fontWeight":700,"color":"#ffffff"},
-      {"id":"aa-status","type":"text","x":28,"y":112,"w":424,"h":104,"text":"Android Auto is not configured on this build. ActiView’s own dashboard stays available.","fontSize":15,"lineHeight":22,"padding":18,"background":"#f6f5f2","color":"#111111","radius":16},
-      {"id":"aa-home","type":"nav","x":424,"y":275,"w":44,"h":40,"icon":"home","action":{"type":"navigate","screen":"home"}}
-    ]}
+    {
+      "id": "splash",
+      "name": "Splash",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "splash-title",
+          "type": "text",
+          "x": 0,
+          "y": 112,
+          "w": 480,
+          "h": 62,
+          "text": "ActiveView",
+          "fontSize": 48,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "splash-subtitle",
+          "type": "text",
+          "x": 0,
+          "y": 168,
+          "w": 480,
+          "h": 32,
+          "text": "Powered by BA",
+          "fontSize": 16,
+          "color": "#888888",
+          "fontWeight": 400,
+          "align": "center"
+        }
+      ]
+    },
+    {
+      "id": "home",
+      "name": "Home dashboard",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "home-map",
+          "type": "map",
+          "x": 0,
+          "y": 0,
+          "w": 210,
+          "h": 320,
+          "zoom": 15,
+          "showCoordinates": false,
+          "action": {
+            "type": "navigate",
+            "screen": "map"
+          }
+        },
+        {
+          "id": "speed-tile",
+          "type": "tile",
+          "x": 226,
+          "y": 18,
+          "w": 64,
+          "h": 85,
+          "text": "Speed",
+          "value": "{{speedKmh|--}}",
+          "detail": "km/h",
+          "faceSize": 64,
+          "exponent": 4.6,
+          "background": "#247f96",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "speed"
+          }
+        },
+        {
+          "id": "weather-tile",
+          "type": "tile",
+          "x": 313,
+          "y": 18,
+          "w": 64,
+          "h": 85,
+          "text": "Weather",
+          "icon": "weather",
+          "iconSrc": "assets/rpi-icons/weather_white_24.png",
+          "iconSize": 24,
+          "value": "{{weather.temperature|--}}C",
+          "detail": "{{weather.description|--}}",
+          "faceSize": 64,
+          "exponent": 4.6,
+          "background": "#3f95cf",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "weather"
+          }
+        },
+        {
+          "id": "phone-tile",
+          "type": "tile",
+          "x": 400,
+          "y": 18,
+          "w": 64,
+          "h": 85,
+          "text": "Phone",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_24.png",
+          "iconSize": 24,
+          "detail": "{{phone.battery_percent|--}}%",
+          "faceSize": 64,
+          "exponent": 4.6,
+          "background": "#3d9a61",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "status"
+          }
+        },
+        {
+          "id": "home-music",
+          "type": "media",
+          "x": 222,
+          "y": 108,
+          "w": 246,
+          "h": 72,
+          "background": "#ffffff",
+          "color": "#111111",
+          "radius": 18,
+          "shape": "superellipse",
+          "exponent": 5.8,
+          "action": {
+            "type": "navigate",
+            "screen": "music"
+          }
+        },
+        {
+          "id": "home-call",
+          "type": "tile",
+          "x": 232,
+          "y": 195,
+          "w": 56,
+          "h": 82,
+          "text": "Call",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_44.png",
+          "iconSize": 44,
+          "faceSize": 56,
+          "exponent": 4.6,
+          "background": "#3d9a61",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "phone"
+          }
+        },
+        {
+          "id": "home-settings",
+          "type": "tile",
+          "x": 317,
+          "y": 195,
+          "w": 56,
+          "h": 82,
+          "text": "Settings",
+          "icon": "settings",
+          "iconSrc": "assets/rpi-icons/settings_white_44.png",
+          "iconSize": 44,
+          "faceSize": 56,
+          "exponent": 4.6,
+          "background": "#343942",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "settings"
+          }
+        },
+        {
+          "id": "home-apps",
+          "type": "tile",
+          "x": 402,
+          "y": 195,
+          "w": 56,
+          "h": 82,
+          "text": "Apps",
+          "icon": "apps",
+          "iconSize": 36,
+          "faceSize": 56,
+          "exponent": 4.6,
+          "background": "#424950",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "apps-page-1"
+          }
+        },
+        {
+          "id": "home-time",
+          "type": "text",
+          "x": 222,
+          "y": 286,
+          "w": 78,
+          "h": 28,
+          "text": "{{time|--:--}}",
+          "fontSize": 16,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "home-device-battery",
+          "type": "battery",
+          "x": 322,
+          "y": 291,
+          "w": 64,
+          "h": 20,
+          "value": "{{device.battery_percent|100}}",
+          "color": "#ffffff"
+        },
+        {
+          "id": "home-phone-battery",
+          "type": "text",
+          "x": 386,
+          "y": 288,
+          "w": 80,
+          "h": 24,
+          "text": "Phone {{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400,
+          "align": "right"
+        },
+        {
+          "id": "ready-background",
+          "type": "card",
+          "x": 0,
+          "y": 0,
+          "w": 480,
+          "h": 320,
+          "background": "#000000",
+          "visibleWhen": "!connection.connected",
+          "z": 100
+        },
+        {
+          "id": "ready-phone",
+          "type": "image",
+          "x": 74,
+          "y": 92,
+          "w": 74,
+          "h": 118,
+          "src": "assets/ready/connect_phone.png",
+          "background": "transparent",
+          "visibleWhen": "!connection.connected",
+          "z": 101
+        },
+        {
+          "id": "ready-title",
+          "type": "text",
+          "x": 170,
+          "y": 94,
+          "w": 290,
+          "h": 52,
+          "text": "Ready to connect\nwith phone",
+          "fontSize": 15,
+          "color": "#ff6600",
+          "fontWeight": 700,
+          "verticalAlign": "top",
+          "visibleWhen": "!connection.connected",
+          "z": 101
+        },
+        {
+          "id": "ready-copy",
+          "type": "text",
+          "x": 170,
+          "y": 156,
+          "w": 290,
+          "h": 50,
+          "text": "Open Actiview Companion\nand connect over BLE",
+          "fontSize": 13,
+          "color": "#ffffff",
+          "fontWeight": 400,
+          "verticalAlign": "top",
+          "visibleWhen": "!connection.connected",
+          "z": 101
+        },
+        {
+          "id": "ready-logo",
+          "type": "image",
+          "x": 174,
+          "y": 248,
+          "w": 132,
+          "h": 45,
+          "src": "assets/ready/actiview_horizontal_logo.png",
+          "background": "transparent",
+          "visibleWhen": "!connection.connected",
+          "z": 101
+        }
+      ]
+    },
+    {
+      "id": "apps-page-1",
+      "name": "Apps · page 1",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "app-map",
+          "type": "tile",
+          "x": 88,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Maps",
+          "icon": "map",
+          "iconSrc": "assets/rpi-icons/map_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#168a98",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "map"
+          }
+        },
+        {
+          "id": "app-music",
+          "type": "tile",
+          "x": 203,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Music",
+          "icon": "music",
+          "iconSrc": "assets/rpi-icons/music_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#a43e45",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "music"
+          }
+        },
+        {
+          "id": "app-phone",
+          "type": "tile",
+          "x": 318,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Phone",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#3d9a61",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "phone"
+          }
+        },
+        {
+          "id": "app-weather",
+          "type": "tile",
+          "x": 88,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "Weather",
+          "icon": "weather",
+          "iconSrc": "assets/rpi-icons/weather_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#3f95cf",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "weather"
+          }
+        },
+        {
+          "id": "app-status",
+          "type": "tile",
+          "x": 203,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "Status",
+          "icon": "battery",
+          "iconSrc": "assets/rpi-icons/battery_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#778072",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "status"
+          }
+        },
+        {
+          "id": "app-settings",
+          "type": "tile",
+          "x": 318,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "Settings",
+          "icon": "settings",
+          "iconSrc": "assets/rpi-icons/settings_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#343942",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "settings"
+          }
+        },
+        {
+          "id": "apps-previous",
+          "type": "button",
+          "x": 20,
+          "y": 116,
+          "w": 36,
+          "h": 60,
+          "text": "‹",
+          "action": {
+            "type": "navigate",
+            "screen": "apps-page-2"
+          },
+          "background": "#000000",
+          "color": "#ffffff",
+          "fontSize": 42,
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-next",
+          "type": "button",
+          "x": 424,
+          "y": 116,
+          "w": 36,
+          "h": 60,
+          "text": "›",
+          "action": {
+            "type": "navigate",
+            "screen": "apps-page-2"
+          },
+          "background": "#000000",
+          "color": "#ffffff",
+          "fontSize": 42,
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-time",
+          "type": "text",
+          "x": 24,
+          "y": 276,
+          "w": 96,
+          "h": 32,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-device-battery",
+          "type": "battery",
+          "x": 132,
+          "y": 283,
+          "w": 86,
+          "h": 20,
+          "value": "{{device.battery_percent|100}}",
+          "color": "#ffffff"
+        },
+        {
+          "id": "apps-phone-icon",
+          "type": "image",
+          "x": 244,
+          "y": 275,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "apps-phone-battery",
+          "type": "text",
+          "x": 286,
+          "y": 278,
+          "w": 54,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-home",
+          "type": "button",
+          "x": 420,
+          "y": 276,
+          "w": 42,
+          "h": 38,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 20
+        }
+      ]
+    },
+    {
+      "id": "apps-page-2",
+      "name": "Apps · page 2",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "app-contacts",
+          "type": "tile",
+          "x": 88,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Contacts",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#3d9a61",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "contacts"
+          }
+        },
+        {
+          "id": "app-trip",
+          "type": "tile",
+          "x": 203,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Trip",
+          "icon": "gps",
+          "iconSrc": "assets/rpi-icons/gps_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#4f9370",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "trip"
+          }
+        },
+        {
+          "id": "app-waypoints",
+          "type": "tile",
+          "x": 318,
+          "y": 34,
+          "w": 74,
+          "h": 105,
+          "text": "Points",
+          "icon": "gps",
+          "iconSrc": "assets/rpi-icons/gps_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#4f9370",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "waypoints"
+          }
+        },
+        {
+          "id": "app-carplay",
+          "type": "tile",
+          "x": 88,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "CarPlay",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#3e434c",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "carplay"
+          }
+        },
+        {
+          "id": "app-airplay",
+          "type": "tile",
+          "x": 203,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "AirPlay",
+          "icon": "wifi",
+          "iconSrc": "assets/rpi-icons/wifi_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#527e9c",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "airplay"
+          }
+        },
+        {
+          "id": "app-android-auto",
+          "type": "tile",
+          "x": 318,
+          "y": 146,
+          "w": 74,
+          "h": 105,
+          "text": "Android Auto",
+          "icon": "phone",
+          "iconSrc": "assets/rpi-icons/phone_white_44.png",
+          "iconSize": 44,
+          "faceSize": 74,
+          "exponent": 4.8,
+          "background": "#3e434c",
+          "color": "#ffffff",
+          "action": {
+            "type": "navigate",
+            "screen": "android-auto"
+          }
+        },
+        {
+          "id": "apps-previous",
+          "type": "button",
+          "x": 20,
+          "y": 116,
+          "w": 36,
+          "h": 60,
+          "text": "‹",
+          "action": {
+            "type": "navigate",
+            "screen": "apps-page-1"
+          },
+          "background": "#000000",
+          "color": "#ffffff",
+          "fontSize": 42,
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-next",
+          "type": "button",
+          "x": 424,
+          "y": 116,
+          "w": 36,
+          "h": 60,
+          "text": "›",
+          "action": {
+            "type": "navigate",
+            "screen": "apps-page-1"
+          },
+          "background": "#000000",
+          "color": "#ffffff",
+          "fontSize": 42,
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-time",
+          "type": "text",
+          "x": 24,
+          "y": 276,
+          "w": 96,
+          "h": 32,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-device-battery",
+          "type": "battery",
+          "x": 132,
+          "y": 283,
+          "w": 86,
+          "h": 20,
+          "value": "{{device.battery_percent|100}}",
+          "color": "#ffffff"
+        },
+        {
+          "id": "apps-phone-icon",
+          "type": "image",
+          "x": 244,
+          "y": 275,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "apps-phone-battery",
+          "type": "text",
+          "x": 286,
+          "y": 278,
+          "w": 54,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "apps-home",
+          "type": "button",
+          "x": 420,
+          "y": 276,
+          "w": 42,
+          "h": 38,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 20
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "name": "Map & navigation",
+      "background": "#050505",
+      "elements": [
+        {
+          "id": "map-surface",
+          "type": "map",
+          "x": 0,
+          "y": 0,
+          "w": 480,
+          "h": 320,
+          "zoom": 15,
+          "showCoordinates": false
+        },
+        {
+          "id": "map-speed",
+          "type": "text",
+          "x": 12,
+          "y": 184,
+          "w": 150,
+          "h": 48,
+          "text": "{{speedKmh|--}} km/h",
+          "fontSize": 23,
+          "color": "#73ff91",
+          "fontWeight": 700,
+          "background": "#000000",
+          "padding": 8,
+          "borderColor": "#222222",
+          "borderWidth": 1
+        },
+        {
+          "id": "map-transport",
+          "type": "text",
+          "x": 12,
+          "y": 236,
+          "w": 74,
+          "h": 16,
+          "text": "{{connection.transport|OFFLINE}}",
+          "fontSize": 9,
+          "color": "#73ff91",
+          "fontWeight": 700
+        },
+        {
+          "id": "map-coordinates",
+          "type": "text",
+          "x": 92,
+          "y": 236,
+          "w": 206,
+          "h": 16,
+          "text": "{{gps.lat|--}}, {{gps.lon|--}}  {{gps.heading_deg|--}} deg",
+          "fontSize": 9,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "map-weather",
+          "type": "text",
+          "x": 12,
+          "y": 253,
+          "w": 286,
+          "h": 16,
+          "text": "{{weather.summary|No weather}}  |  Phone {{phone.battery_percent|--}}%",
+          "fontSize": 9,
+          "color": "#cfcfcf",
+          "fontWeight": 400
+        },
+        {
+          "id": "map-feedback",
+          "type": "text",
+          "x": 12,
+          "y": 253,
+          "w": 286,
+          "h": 16,
+          "text": "{{map.feedback|}}",
+          "fontSize": 9,
+          "color": "#ffd34d",
+          "fontWeight": 400,
+          "visibleWhen": "map.feedback",
+          "z": 5
+        },
+        {
+          "id": "map-recenter",
+          "type": "button",
+          "x": 302,
+          "y": 190,
+          "w": 78,
+          "h": 32,
+          "text": "Recenter",
+          "action": {
+            "type": "command",
+            "command": "map.recenter"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 9,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "map-save",
+          "type": "button",
+          "x": 388,
+          "y": 190,
+          "w": 78,
+          "h": 32,
+          "text": "Save",
+          "action": {
+            "type": "command",
+            "command": "waypoint.add"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 9,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "map-trackback",
+          "type": "button",
+          "x": 302,
+          "y": 229,
+          "w": 78,
+          "h": 32,
+          "text": "Track",
+          "action": {
+            "type": "command",
+            "command": "route.trackback"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 9,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "map-trip",
+          "type": "button",
+          "x": 388,
+          "y": 229,
+          "w": 78,
+          "h": 32,
+          "text": "Trip",
+          "action": {
+            "type": "navigate",
+            "screen": "trip"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 9,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "route-background",
+          "type": "card",
+          "x": 0,
+          "y": 0,
+          "w": 480,
+          "h": 50,
+          "background": "#000000",
+          "visibleWhen": "route.active",
+          "z": 10
+        },
+        {
+          "id": "route-summary",
+          "type": "text",
+          "x": 12,
+          "y": 4,
+          "w": 340,
+          "h": 42,
+          "text": "{{route.destination|Route}}  {{route.eta|--}}  {{route.distance|--}}\n{{route.next_turn|Follow highlighted route}}",
+          "fontSize": 11,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "visibleWhen": "route.active",
+          "z": 11
+        },
+        {
+          "id": "route-stop",
+          "type": "button",
+          "x": 374,
+          "y": 8,
+          "w": 82,
+          "h": 32,
+          "text": "Stop",
+          "action": {
+            "type": "command",
+            "command": "route.stop"
+          },
+          "background": "#351414",
+          "color": "#ff8b8b",
+          "fontSize": 10,
+          "fontWeight": 700,
+          "visibleWhen": "route.active",
+          "z": 11
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "name": "Speed",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "speed-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 160,
+          "h": 30,
+          "text": "Speed",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "speed-icon",
+          "type": "image",
+          "x": 218,
+          "y": 38,
+          "w": 44,
+          "h": 44,
+          "src": "assets/rpi-icons/speed_orange_44.png",
+          "background": "transparent"
+        },
+        {
+          "id": "speed-value",
+          "type": "text",
+          "x": 0,
+          "y": 76,
+          "w": 480,
+          "h": 100,
+          "text": "{{speedKmh|—}}",
+          "fontSize": 82,
+          "color": "#73ff91",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "speed-unit",
+          "type": "text",
+          "x": 0,
+          "y": 178,
+          "w": 480,
+          "h": 34,
+          "text": "{{system.unitLabel|km/h}}",
+          "fontSize": 24,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "speed-unit-toggle",
+          "type": "button",
+          "x": 164,
+          "y": 222,
+          "w": 152,
+          "h": 38,
+          "text": "change unit",
+          "action": {
+            "type": "command",
+            "command": "settings.unit.toggle"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "name": "Music",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "music-art-tile",
+          "type": "shape",
+          "x": 16,
+          "y": 18,
+          "w": 86,
+          "h": 86,
+          "background": "#ffffff",
+          "exponent": 4.6
+        },
+        {
+          "id": "music-art-icon",
+          "type": "image",
+          "x": 27,
+          "y": 22,
+          "w": 64,
+          "h": 64,
+          "src": "assets/rpi-icons/music_black_64.png",
+          "background": "transparent"
+        },
+        {
+          "id": "music-art-label",
+          "type": "text",
+          "x": 16,
+          "y": 78,
+          "w": 86,
+          "h": 20,
+          "text": "Music",
+          "fontSize": 9,
+          "color": "#777777",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "music-title",
+          "type": "text",
+          "x": 120,
+          "y": 22,
+          "w": 328,
+          "h": 52,
+          "text": "{{music.title|No Song}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "music-artist",
+          "type": "text",
+          "x": 120,
+          "y": 76,
+          "w": 328,
+          "h": 28,
+          "text": "{{music.artist|}}",
+          "fontSize": 13,
+          "color": "#d7d7d7",
+          "fontWeight": 400,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "music-source",
+          "type": "text",
+          "x": 120,
+          "y": 98,
+          "w": 328,
+          "h": 22,
+          "text": "Source  {{music.source|--}}",
+          "fontSize": 9,
+          "color": "#00C2FF",
+          "fontWeight": 400,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "music-volume-label",
+          "type": "text",
+          "x": 16,
+          "y": 122,
+          "w": 62,
+          "h": 24,
+          "text": "Volume",
+          "fontSize": 9,
+          "color": "#777777",
+          "fontWeight": 400
+        },
+        {
+          "id": "volume-down",
+          "type": "button",
+          "x": 64,
+          "y": 112,
+          "w": 44,
+          "h": 44,
+          "text": "−",
+          "action": {
+            "type": "command",
+            "command": "music.volume_down"
+          },
+          "background": "#ffffff",
+          "color": "#111111",
+          "fontSize": 24,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "volume-track",
+          "type": "card",
+          "x": 132,
+          "y": 132,
+          "w": 214,
+          "h": 4,
+          "background": "#303030"
+        },
+        {
+          "id": "volume-level",
+          "type": "card",
+          "x": 132,
+          "y": 132,
+          "w": 92,
+          "h": 4,
+          "background": "#00C2FF"
+        },
+        {
+          "id": "volume-thumb",
+          "type": "shape",
+          "x": 213,
+          "y": 122,
+          "w": 20,
+          "h": 20,
+          "background": "#ffffff",
+          "exponent": 2
+        },
+        {
+          "id": "volume-up",
+          "type": "button",
+          "x": 368,
+          "y": 112,
+          "w": 44,
+          "h": 44,
+          "text": "+",
+          "action": {
+            "type": "command",
+            "command": "music.volume_up"
+          },
+          "background": "#ffffff",
+          "color": "#111111",
+          "fontSize": 24,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2
+        },
+        {
+          "id": "music-previous",
+          "type": "button",
+          "x": 108,
+          "y": 178,
+          "w": 60,
+          "h": 56,
+          "text": "◀◀",
+          "action": {
+            "type": "command",
+            "command": "music.prev"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 18,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2,
+          "borderColor": "#2a2a2a"
+        },
+        {
+          "id": "music-play",
+          "type": "button",
+          "x": 206,
+          "y": 172,
+          "w": 68,
+          "h": 68,
+          "text": "{{music.playing|▶}}",
+          "action": {
+            "type": "togglePlayback"
+          },
+          "background": "#ffffff",
+          "color": "#111111",
+          "fontSize": 28,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.6
+        },
+        {
+          "id": "music-next",
+          "type": "button",
+          "x": 312,
+          "y": 178,
+          "w": 60,
+          "h": 56,
+          "text": "▶▶",
+          "action": {
+            "type": "command",
+            "command": "music.next"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 18,
+          "fontWeight": 700,
+          "shape": "superellipse",
+          "exponent": 4.2,
+          "borderColor": "#2a2a2a"
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "weather",
+      "name": "Weather & phone",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "weather-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 180,
+          "h": 30,
+          "text": "Weather",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "weather-card",
+          "type": "card",
+          "x": 28,
+          "y": 62,
+          "w": 196,
+          "h": 184,
+          "background": "#f6f5f2"
+        },
+        {
+          "id": "weather-icon",
+          "type": "image",
+          "x": 94,
+          "y": 78,
+          "w": 64,
+          "h": 64,
+          "src": "assets/rpi-icons/weather_orange_64.png",
+          "background": "transparent"
+        },
+        {
+          "id": "weather-label",
+          "type": "text",
+          "x": 28,
+          "y": 142,
+          "w": 196,
+          "h": 30,
+          "text": "Weather",
+          "fontSize": 20,
+          "color": "#111111",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "weather-value",
+          "type": "text",
+          "x": 40,
+          "y": 180,
+          "w": 172,
+          "h": 50,
+          "text": "{{weather.summary|No data}}",
+          "fontSize": 13,
+          "color": "#555555",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "weather-phone-card",
+          "type": "card",
+          "x": 256,
+          "y": 62,
+          "w": 196,
+          "h": 184,
+          "background": "#f6f5f2"
+        },
+        {
+          "id": "weather-phone-icon",
+          "type": "image",
+          "x": 322,
+          "y": 78,
+          "w": 64,
+          "h": 64,
+          "src": "assets/rpi-icons/phone_orange_64.png",
+          "background": "transparent"
+        },
+        {
+          "id": "weather-phone-label",
+          "type": "text",
+          "x": 256,
+          "y": 142,
+          "w": 196,
+          "h": 30,
+          "text": "Phone",
+          "fontSize": 20,
+          "color": "#111111",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "weather-phone-name",
+          "type": "text",
+          "x": 268,
+          "y": 178,
+          "w": 172,
+          "h": 24,
+          "text": "{{phone.phone_name|Unknown}}",
+          "fontSize": 13,
+          "color": "#555555",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "weather-phone-battery",
+          "type": "text",
+          "x": 268,
+          "y": 205,
+          "w": 172,
+          "h": 28,
+          "text": "{{phone.battery_percent|—}}%",
+          "fontSize": 15,
+          "color": "#111111",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "name": "Device & phone status",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "status-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 160,
+          "h": 30,
+          "text": "Status",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "status-phone-label",
+          "type": "text",
+          "x": 24,
+          "y": 58,
+          "w": 220,
+          "h": 30,
+          "text": "Phone Battery",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-phone-value",
+          "type": "text",
+          "x": 250,
+          "y": 58,
+          "w": 206,
+          "h": 30,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 400,
+          "align": "right",
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-charging-label",
+          "type": "text",
+          "x": 24,
+          "y": 94,
+          "w": 220,
+          "h": 30,
+          "text": "Charging",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-charging-value",
+          "type": "text",
+          "x": 250,
+          "y": 94,
+          "w": 206,
+          "h": 30,
+          "text": "{{phone.charging|--}}",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 400,
+          "align": "right",
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-actiview-label",
+          "type": "text",
+          "x": 24,
+          "y": 130,
+          "w": 220,
+          "h": 30,
+          "text": "ActiView Battery",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-actiview-value",
+          "type": "text",
+          "x": 250,
+          "y": 130,
+          "w": 206,
+          "h": 30,
+          "text": "{{device.battery_percent|--}}%",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 400,
+          "align": "right",
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-earbuds-label",
+          "type": "text",
+          "x": 24,
+          "y": 166,
+          "w": 220,
+          "h": 30,
+          "text": "Earbuds Battery",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-earbuds-value",
+          "type": "text",
+          "x": 250,
+          "y": 166,
+          "w": 206,
+          "h": 30,
+          "text": "--",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 400,
+          "align": "right",
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-bluetooth-label",
+          "type": "text",
+          "x": 24,
+          "y": 202,
+          "w": 220,
+          "h": 30,
+          "text": "Bluetooth",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-bluetooth-value",
+          "type": "text",
+          "x": 250,
+          "y": 202,
+          "w": 206,
+          "h": 30,
+          "text": "{{phone.connection|Disconnected}}",
+          "fontSize": 12,
+          "color": "#111111",
+          "fontWeight": 400,
+          "align": "right",
+          "background": "#f6f5f2",
+          "padding": 6
+        },
+        {
+          "id": "status-ring",
+          "type": "button",
+          "x": 24,
+          "y": 228,
+          "w": 132,
+          "h": 36,
+          "text": "Ring Phone",
+          "action": {
+            "type": "command",
+            "command": "phone.find"
+          },
+          "background": "#2a2410",
+          "color": "#ff6600",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "status-phone",
+          "type": "button",
+          "x": 172,
+          "y": 228,
+          "w": 132,
+          "h": 36,
+          "text": "Phone",
+          "action": {
+            "type": "navigate",
+            "screen": "phone"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "status-settings",
+          "type": "button",
+          "x": 320,
+          "y": 228,
+          "w": 136,
+          "h": 36,
+          "text": "Settings",
+          "action": {
+            "type": "navigate",
+            "screen": "settings"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "trip",
+      "name": "Trip recording",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "trip-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 120,
+          "h": 30,
+          "text": "Trip",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "trip-icon",
+          "type": "image",
+          "x": 264,
+          "y": 14,
+          "w": 44,
+          "h": 44,
+          "src": "assets/rpi-icons/gps_orange_44.png",
+          "background": "transparent"
+        },
+        {
+          "id": "trip-trackback",
+          "type": "button",
+          "x": 320,
+          "y": 18,
+          "w": 136,
+          "h": 34,
+          "text": "TrackBack",
+          "action": {
+            "type": "command",
+            "command": "route.trackback",
+            "screen": "map"
+          },
+          "background": "#17301d",
+          "color": "#73ff91",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "trip-summary",
+          "type": "text",
+          "x": 24,
+          "y": 58,
+          "w": 432,
+          "h": 44,
+          "text": "{{trip.status|No active trip}}",
+          "fontSize": 13,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "padding": 8,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "trip-speed-label",
+          "type": "text",
+          "x": 24,
+          "y": 112,
+          "w": 136,
+          "h": 16,
+          "text": "Speed",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-speed-value",
+          "type": "text",
+          "x": 24,
+          "y": 128,
+          "w": 136,
+          "h": 28,
+          "text": "{{speedKmh|--}} km/h",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-max-label",
+          "type": "text",
+          "x": 170,
+          "y": 112,
+          "w": 136,
+          "h": 16,
+          "text": "Max",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-max-value",
+          "type": "text",
+          "x": 170,
+          "y": 128,
+          "w": 136,
+          "h": 28,
+          "text": "{{trip.max|--}}",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-avg-label",
+          "type": "text",
+          "x": 316,
+          "y": 112,
+          "w": 136,
+          "h": 16,
+          "text": "Avg",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-avg-value",
+          "type": "text",
+          "x": 316,
+          "y": 128,
+          "w": 136,
+          "h": 28,
+          "text": "{{trip.avg|--}}",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-distance-label",
+          "type": "text",
+          "x": 24,
+          "y": 160,
+          "w": 136,
+          "h": 16,
+          "text": "Distance",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-distance-value",
+          "type": "text",
+          "x": 24,
+          "y": 176,
+          "w": 136,
+          "h": 28,
+          "text": "{{trip.distance|--}}",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-time-label",
+          "type": "text",
+          "x": 170,
+          "y": 160,
+          "w": 136,
+          "h": 16,
+          "text": "Moving",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-time-value",
+          "type": "text",
+          "x": 170,
+          "y": 176,
+          "w": 136,
+          "h": 28,
+          "text": "{{trip.moving|--}}",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-compass-label",
+          "type": "text",
+          "x": 316,
+          "y": 160,
+          "w": 136,
+          "h": 16,
+          "text": "Compass",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-compass-value",
+          "type": "text",
+          "x": 316,
+          "y": 176,
+          "w": 136,
+          "h": 28,
+          "text": "{{gps.heading_deg|--}} deg",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-altitude-label",
+          "type": "text",
+          "x": 24,
+          "y": 208,
+          "w": 136,
+          "h": 16,
+          "text": "Altitude",
+          "fontSize": 9,
+          "color": "#555555",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-altitude-value",
+          "type": "text",
+          "x": 24,
+          "y": 224,
+          "w": 136,
+          "h": 28,
+          "text": "{{gps.altitude_m|--}} m",
+          "fontSize": 14,
+          "color": "#111111",
+          "fontWeight": 700,
+          "background": "#f6f5f2",
+          "align": "center"
+        },
+        {
+          "id": "trip-start",
+          "type": "button",
+          "x": 27,
+          "y": 218,
+          "w": 102,
+          "h": 34,
+          "text": "Start",
+          "action": {
+            "type": "command",
+            "command": "trip.start"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 10,
+          "fontWeight": 700
+        },
+        {
+          "id": "trip-pause",
+          "type": "button",
+          "x": 135,
+          "y": 218,
+          "w": 102,
+          "h": 34,
+          "text": "Pause",
+          "action": {
+            "type": "command",
+            "command": "trip.pause"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 10,
+          "fontWeight": 700
+        },
+        {
+          "id": "trip-resume",
+          "type": "button",
+          "x": 243,
+          "y": 218,
+          "w": 102,
+          "h": 34,
+          "text": "Resume",
+          "action": {
+            "type": "command",
+            "command": "trip.resume"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 10,
+          "fontWeight": 700
+        },
+        {
+          "id": "trip-reset",
+          "type": "button",
+          "x": 351,
+          "y": 218,
+          "w": 102,
+          "h": 34,
+          "text": "Reset",
+          "action": {
+            "type": "command",
+            "command": "trip.reset"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 10,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "waypoints",
+      "name": "Waypoints",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "waypoints-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 220,
+          "h": 30,
+          "text": "Waypoints",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "waypoints-icon",
+          "type": "image",
+          "x": 412,
+          "y": 14,
+          "w": 44,
+          "h": 44,
+          "src": "assets/rpi-icons/gps_orange_44.png",
+          "background": "transparent"
+        },
+        {
+          "id": "waypoints-save",
+          "type": "button",
+          "x": 24,
+          "y": 64,
+          "w": 432,
+          "h": 44,
+          "text": "Save Current Location",
+          "action": {
+            "type": "command",
+            "command": "waypoint.add"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "waypoints-message",
+          "type": "text",
+          "x": 24,
+          "y": 116,
+          "w": 432,
+          "h": 22,
+          "text": "{{waypointMessage|}}",
+          "fontSize": 11,
+          "color": "#73ff91",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "waypoints-list",
+          "type": "text",
+          "x": 24,
+          "y": 146,
+          "w": 432,
+          "h": 118,
+          "text": "{{waypointsText|No saved waypoints.}}",
+          "fontSize": 10,
+          "color": "#111111",
+          "fontWeight": 400,
+          "background": "#f6f5f2",
+          "padding": 8,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "name": "Settings & power",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "settings-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 200,
+          "h": 30,
+          "text": "Settings",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "settings-icon",
+          "type": "image",
+          "x": 412,
+          "y": 14,
+          "w": 44,
+          "h": 44,
+          "src": "assets/rpi-icons/settings_orange_44.png",
+          "background": "transparent"
+        },
+        {
+          "id": "settings-status",
+          "type": "text",
+          "x": 24,
+          "y": 64,
+          "w": 432,
+          "h": 118,
+          "text": "Connection  {{connection.message|Disconnected}}\nPhone       {{phone.phone_name|iPhone}}  {{phone.battery_percent|--}}%\nWeather: {{weather.summary|No weather}}\nGPS: {{gps.lat|--}}, {{gps.lon|--}}\nSpeed      {{system.unit|kmh}}\nRoutes     1\nWaypoints  1",
+          "fontSize": 11,
+          "color": "#111111",
+          "fontWeight": 400,
+          "background": "#f6f5f2",
+          "padding": 8,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "settings-kmh",
+          "type": "button",
+          "x": 24,
+          "y": 196,
+          "w": 100,
+          "h": 38,
+          "text": "km/h",
+          "action": {
+            "type": "command",
+            "command": "settings.unit.kmh"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "settings-ms",
+          "type": "button",
+          "x": 136,
+          "y": 196,
+          "w": 100,
+          "h": 38,
+          "text": "m/s",
+          "action": {
+            "type": "command",
+            "command": "settings.unit.ms"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "settings-reboot",
+          "type": "button",
+          "x": 252,
+          "y": 196,
+          "w": 92,
+          "h": 38,
+          "text": "Reboot",
+          "action": {
+            "type": "navigate",
+            "screen": "confirm-reboot"
+          },
+          "background": "#2a2410",
+          "color": "#ffd34d",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "settings-poweroff",
+          "type": "button",
+          "x": 356,
+          "y": 196,
+          "w": 100,
+          "h": 38,
+          "text": "Power Off",
+          "action": {
+            "type": "navigate",
+            "screen": "confirm-poweroff"
+          },
+          "background": "#351414",
+          "color": "#ff8b8b",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "settings-feedback",
+          "type": "text",
+          "x": 24,
+          "y": 238,
+          "w": 360,
+          "h": 28,
+          "text": "{{system.message|}}",
+          "fontSize": 10,
+          "color": "#ffd34d",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "confirm-reboot",
+      "name": "Reboot ActiView?",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "confirm-panel",
+          "type": "card",
+          "x": 74,
+          "y": 82,
+          "w": 332,
+          "h": 156,
+          "background": "#050505",
+          "borderColor": "#2a2a2a",
+          "borderWidth": 1
+        },
+        {
+          "id": "confirm-title",
+          "type": "text",
+          "x": 74,
+          "y": 104,
+          "w": 332,
+          "h": 34,
+          "text": "Reboot ActiView?",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "confirm-copy",
+          "type": "text",
+          "x": 74,
+          "y": 143,
+          "w": 332,
+          "h": 26,
+          "text": "Any active connection will close.",
+          "fontSize": 11,
+          "color": "#b8b8b8",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "confirm-cancel",
+          "type": "button",
+          "x": 112,
+          "y": 186,
+          "w": 116,
+          "h": 38,
+          "text": "Cancel",
+          "action": {
+            "type": "navigate",
+            "screen": "settings"
+          },
+          "background": "#202020",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "confirm-action",
+          "type": "button",
+          "x": 252,
+          "y": 186,
+          "w": 116,
+          "h": 38,
+          "text": "Reboot",
+          "action": {
+            "type": "command",
+            "command": "system.reboot",
+            "screen": "settings"
+          },
+          "background": "#2a2410",
+          "color": "#ffd34d",
+          "fontSize": 11,
+          "fontWeight": 700
+        }
+      ]
+    },
+    {
+      "id": "confirm-poweroff",
+      "name": "Power off ActiView?",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "confirm-panel",
+          "type": "card",
+          "x": 74,
+          "y": 82,
+          "w": 332,
+          "h": 156,
+          "background": "#050505",
+          "borderColor": "#2a2a2a",
+          "borderWidth": 1
+        },
+        {
+          "id": "confirm-title",
+          "type": "text",
+          "x": 74,
+          "y": 104,
+          "w": 332,
+          "h": 34,
+          "text": "Power off ActiView?",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "confirm-copy",
+          "type": "text",
+          "x": 74,
+          "y": 143,
+          "w": 332,
+          "h": 26,
+          "text": "Any active connection will close.",
+          "fontSize": 11,
+          "color": "#b8b8b8",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "confirm-cancel",
+          "type": "button",
+          "x": 112,
+          "y": 186,
+          "w": 116,
+          "h": 38,
+          "text": "Cancel",
+          "action": {
+            "type": "navigate",
+            "screen": "settings"
+          },
+          "background": "#202020",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "confirm-action",
+          "type": "button",
+          "x": 252,
+          "y": 186,
+          "w": 116,
+          "h": 38,
+          "text": "Power Off",
+          "action": {
+            "type": "command",
+            "command": "system.poweroff",
+            "screen": "settings"
+          },
+          "background": "#351414",
+          "color": "#ff8b8b",
+          "fontSize": 11,
+          "fontWeight": 700
+        }
+      ]
+    },
+    {
+      "id": "phone",
+      "name": "Phone & calls",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "phone-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 180,
+          "h": 30,
+          "text": "Phone",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "favorites-title",
+          "type": "text",
+          "x": 20,
+          "y": 54,
+          "w": 216,
+          "h": 20,
+          "text": "Favorites",
+          "fontSize": 10,
+          "color": "#777777",
+          "fontWeight": 700
+        },
+        {
+          "id": "favorite-0",
+          "type": "button",
+          "x": 20,
+          "y": 76,
+          "w": 216,
+          "h": 34,
+          "text": "{{contacts.0.name|Contact}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.0"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 12,
+          "fontWeight": 700
+        },
+        {
+          "id": "favorite-1",
+          "type": "button",
+          "x": 20,
+          "y": 116,
+          "w": 216,
+          "h": 34,
+          "text": "{{contacts.1.name|Contact}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.1"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 12,
+          "fontWeight": 700
+        },
+        {
+          "id": "favorite-2",
+          "type": "button",
+          "x": 20,
+          "y": 156,
+          "w": 216,
+          "h": 34,
+          "text": "{{contacts.2.name|Contact}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.2"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 12,
+          "fontWeight": 700
+        },
+        {
+          "id": "favorite-3",
+          "type": "button",
+          "x": 20,
+          "y": 196,
+          "w": 216,
+          "h": 34,
+          "text": "{{contacts.3.name|Contact}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.3"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 12,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-number",
+          "type": "text",
+          "x": 252,
+          "y": 54,
+          "w": 208,
+          "h": 34,
+          "text": "{{dialNumber|Enter number}}",
+          "fontSize": 14,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center",
+          "background": "#171717"
+        },
+        {
+          "id": "dial-0",
+          "type": "button",
+          "x": 252,
+          "y": 90,
+          "w": 62,
+          "h": 24,
+          "text": "1",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.1"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-1",
+          "type": "button",
+          "x": 322,
+          "y": 90,
+          "w": 62,
+          "h": 24,
+          "text": "2",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.2"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-2",
+          "type": "button",
+          "x": 392,
+          "y": 90,
+          "w": 62,
+          "h": 24,
+          "text": "3",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.3"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-3",
+          "type": "button",
+          "x": 252,
+          "y": 118,
+          "w": 62,
+          "h": 24,
+          "text": "4",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.4"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-4",
+          "type": "button",
+          "x": 322,
+          "y": 118,
+          "w": 62,
+          "h": 24,
+          "text": "5",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.5"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-5",
+          "type": "button",
+          "x": 392,
+          "y": 118,
+          "w": 62,
+          "h": 24,
+          "text": "6",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.6"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-6",
+          "type": "button",
+          "x": 252,
+          "y": 146,
+          "w": 62,
+          "h": 24,
+          "text": "7",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.7"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-7",
+          "type": "button",
+          "x": 322,
+          "y": 146,
+          "w": 62,
+          "h": 24,
+          "text": "8",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.8"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-8",
+          "type": "button",
+          "x": 392,
+          "y": 146,
+          "w": 62,
+          "h": 24,
+          "text": "9",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.9"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-9",
+          "type": "button",
+          "x": 252,
+          "y": 174,
+          "w": 62,
+          "h": 24,
+          "text": "*",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.*"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-10",
+          "type": "button",
+          "x": 322,
+          "y": 174,
+          "w": 62,
+          "h": 24,
+          "text": "0",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.0"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-11",
+          "type": "button",
+          "x": 392,
+          "y": 174,
+          "w": 62,
+          "h": 24,
+          "text": "#",
+          "action": {
+            "type": "command",
+            "command": "phone.digit.#"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 13,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-call",
+          "type": "button",
+          "x": 252,
+          "y": 202,
+          "w": 96,
+          "h": 28,
+          "text": "Call",
+          "action": {
+            "type": "command",
+            "command": "phone.dial"
+          },
+          "background": "#17301d",
+          "color": "#73ff91",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "dial-clear",
+          "type": "button",
+          "x": 364,
+          "y": 202,
+          "w": 96,
+          "h": 28,
+          "text": "Clear",
+          "action": {
+            "type": "command",
+            "command": "phone.clear"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "phone-ring",
+          "type": "button",
+          "x": 24,
+          "y": 230,
+          "w": 132,
+          "h": 34,
+          "text": "Ring Phone",
+          "action": {
+            "type": "command",
+            "command": "phone.find"
+          },
+          "background": "#2a2410",
+          "color": "#ff6600",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "phone-contacts",
+          "type": "button",
+          "x": 172,
+          "y": 230,
+          "w": 132,
+          "h": 34,
+          "text": "Contacts",
+          "action": {
+            "type": "navigate",
+            "screen": "contacts"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "phone-accept",
+          "type": "button",
+          "x": 320,
+          "y": 230,
+          "w": 64,
+          "h": 34,
+          "text": "Accept",
+          "action": {
+            "type": "command",
+            "command": "phone.accept"
+          },
+          "background": "#17301d",
+          "color": "#73ff91",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "phone-decline",
+          "type": "button",
+          "x": 392,
+          "y": 230,
+          "w": 68,
+          "h": 34,
+          "text": "Decline",
+          "action": {
+            "type": "command",
+            "command": "phone.decline"
+          },
+          "background": "#351414",
+          "color": "#ff8b8b",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "phone-feedback",
+          "type": "text",
+          "x": 24,
+          "y": 264,
+          "w": 360,
+          "h": 20,
+          "text": "{{phoneFeedback|}}",
+          "fontSize": 9,
+          "color": "#ffd34d",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "contacts",
+      "name": "Contacts",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "contacts-title",
+          "type": "text",
+          "x": 24,
+          "y": 18,
+          "w": 220,
+          "h": 30,
+          "text": "Contacts",
+          "fontSize": 17,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-0",
+          "type": "button",
+          "x": 24,
+          "y": 60,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.0.name|Contact}}\n{{contacts.0.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.0"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-1",
+          "type": "button",
+          "x": 246,
+          "y": 60,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.1.name|Contact}}\n{{contacts.1.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.1"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-2",
+          "type": "button",
+          "x": 24,
+          "y": 122,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.2.name|Contact}}\n{{contacts.2.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.2"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-3",
+          "type": "button",
+          "x": 246,
+          "y": 122,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.3.name|Contact}}\n{{contacts.3.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.3"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-4",
+          "type": "button",
+          "x": 24,
+          "y": 184,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.4.name|Contact}}\n{{contacts.4.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.4"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "contact-5",
+          "type": "button",
+          "x": 246,
+          "y": 184,
+          "w": 210,
+          "h": 52,
+          "text": "{{contacts.5.name|Contact}}\n{{contacts.5.number|}}",
+          "action": {
+            "type": "command",
+            "command": "phone.call.5"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "sos",
+      "name": "SOS",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "sos-title",
+          "type": "text",
+          "x": 0,
+          "y": 34,
+          "w": 480,
+          "h": 56,
+          "text": "SOS",
+          "fontSize": 44,
+          "color": "#ff4d4d",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "sos-copy",
+          "type": "text",
+          "x": 0,
+          "y": 92,
+          "w": 480,
+          "h": 30,
+          "text": "Relay emergency message through iPhone",
+          "fontSize": 13,
+          "color": "#ffffff",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "sos-send",
+          "type": "button",
+          "x": 112,
+          "y": 134,
+          "w": 256,
+          "h": 66,
+          "text": "SEND SOS",
+          "action": {
+            "type": "command",
+            "command": "sos"
+          },
+          "background": "#b51515",
+          "color": "#ffffff",
+          "fontSize": 24,
+          "fontWeight": 700
+        },
+        {
+          "id": "sos-message",
+          "type": "text",
+          "x": 30,
+          "y": 210,
+          "w": 420,
+          "h": 46,
+          "text": "{{sos.message|}}",
+          "fontSize": 11,
+          "color": "#ffcc00",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "airplay",
+      "name": "AirPlay",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "airplay-title",
+          "type": "text",
+          "x": 26,
+          "y": 34,
+          "w": 240,
+          "h": 38,
+          "text": "AirPlay",
+          "fontSize": 24,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "airplay-subtitle",
+          "type": "text",
+          "x": 28,
+          "y": 70,
+          "w": 240,
+          "h": 24,
+          "text": "screen mirroring",
+          "fontSize": 12,
+          "color": "#ff6600",
+          "fontWeight": 700
+        },
+        {
+          "id": "airplay-status",
+          "type": "text",
+          "x": 28,
+          "y": 108,
+          "w": 424,
+          "h": 96,
+          "text": "{{airplay.status}}",
+          "fontSize": 15,
+          "color": "#111111",
+          "fontWeight": 400,
+          "background": "#f6f5f2",
+          "padding": 12,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "airplay-launch",
+          "type": "button",
+          "x": 28,
+          "y": 222,
+          "w": 132,
+          "h": 40,
+          "text": "Launch",
+          "action": {
+            "type": "command",
+            "command": "airplay.launch"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "airplay-stop",
+          "type": "button",
+          "x": 178,
+          "y": 222,
+          "w": 132,
+          "h": 40,
+          "text": "Stop",
+          "action": {
+            "type": "command",
+            "command": "airplay.stop"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "airplay-back",
+          "type": "button",
+          "x": 328,
+          "y": 222,
+          "w": 124,
+          "h": 40,
+          "text": "Back",
+          "action": {
+            "type": "command",
+            "command": "airplay.stop",
+            "screen": "home"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "carplay",
+      "name": "CarPlay",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "carplay-title",
+          "type": "text",
+          "x": 26,
+          "y": 34,
+          "w": 240,
+          "h": 38,
+          "text": "CarPlay",
+          "fontSize": 24,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "carplay-subtitle",
+          "type": "text",
+          "x": 28,
+          "y": 70,
+          "w": 240,
+          "h": 24,
+          "text": "optional app",
+          "fontSize": 12,
+          "color": "#ff6600",
+          "fontWeight": 700
+        },
+        {
+          "id": "carplay-status",
+          "type": "text",
+          "x": 28,
+          "y": 108,
+          "w": 424,
+          "h": 96,
+          "text": "{{carplay.status}}",
+          "fontSize": 15,
+          "color": "#111111",
+          "fontWeight": 400,
+          "background": "#f6f5f2",
+          "padding": 12,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "carplay-launch",
+          "type": "button",
+          "x": 28,
+          "y": 222,
+          "w": 132,
+          "h": 40,
+          "text": "Launch",
+          "action": {
+            "type": "command",
+            "command": "carplay.launch"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "carplay-back",
+          "type": "button",
+          "x": 178,
+          "y": 222,
+          "w": 132,
+          "h": 40,
+          "text": "Back",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "android-auto",
+      "name": "Android Auto",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "android-title",
+          "type": "text",
+          "x": 26,
+          "y": 34,
+          "w": 300,
+          "h": 38,
+          "text": "Android Auto",
+          "fontSize": 24,
+          "color": "#ffffff",
+          "fontWeight": 700
+        },
+        {
+          "id": "android-subtitle",
+          "type": "text",
+          "x": 28,
+          "y": 72,
+          "w": 240,
+          "h": 24,
+          "text": "coming later",
+          "fontSize": 12,
+          "color": "#ff6600",
+          "fontWeight": 700
+        },
+        {
+          "id": "android-status",
+          "type": "text",
+          "x": 28,
+          "y": 112,
+          "w": 424,
+          "h": 104,
+          "text": "Android Auto is not configured on this build.\nActiView's own dashboard stays available.",
+          "fontSize": 15,
+          "color": "#111111",
+          "fontWeight": 400,
+          "background": "#f6f5f2",
+          "padding": 18,
+          "verticalAlign": "top"
+        },
+        {
+          "id": "android-back",
+          "type": "button",
+          "x": 174,
+          "y": 234,
+          "w": 132,
+          "h": 40,
+          "text": "Back",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#f6f5f2",
+          "color": "#111111",
+          "fontSize": 11,
+          "fontWeight": 700
+        },
+        {
+          "id": "nav-time",
+          "type": "text",
+          "x": 12,
+          "y": 278,
+          "w": 96,
+          "h": 34,
+          "text": "{{time|--:--}}",
+          "fontSize": 18,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-device-battery-icon",
+          "type": "image",
+          "x": 122,
+          "y": 280,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/battery_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-device-battery",
+          "type": "text",
+          "x": 160,
+          "y": 282,
+          "w": 54,
+          "h": 28,
+          "text": "{{device.battery_percent|100}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-phone-icon",
+          "type": "image",
+          "x": 228,
+          "y": 279,
+          "w": 32,
+          "h": 32,
+          "src": "assets/rpi-icons/phone_white_32.png",
+          "background": "transparent"
+        },
+        {
+          "id": "nav-phone-battery",
+          "type": "text",
+          "x": 266,
+          "y": 282,
+          "w": 58,
+          "h": 28,
+          "text": "{{phone.battery_percent|--}}%",
+          "fontSize": 10,
+          "color": "#ffffff",
+          "fontWeight": 400
+        },
+        {
+          "id": "nav-home",
+          "type": "button",
+          "x": 424,
+          "y": 275,
+          "w": 44,
+          "h": 40,
+          "text": "",
+          "action": {
+            "type": "navigate",
+            "screen": "home"
+          },
+          "background": "#111111",
+          "color": "#ffffff",
+          "fontSize": 11,
+          "fontWeight": 700,
+          "radius": 10,
+          "shape": "superellipse",
+          "exponent": 4.4,
+          "icon": "home",
+          "iconSrc": "assets/rpi-icons/home_white_44.png",
+          "iconSize": 24
+        }
+      ]
+    },
+    {
+      "id": "incoming-call",
+      "name": "Incoming call overlay",
+      "background": "#000000",
+      "elements": [
+        {
+          "id": "incoming-kind",
+          "type": "text",
+          "x": 0,
+          "y": 34,
+          "w": 480,
+          "h": 32,
+          "text": "Incoming Call",
+          "fontSize": 18,
+          "color": "#ff6600",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "incoming-name",
+          "type": "text",
+          "x": 24,
+          "y": 88,
+          "w": 432,
+          "h": 50,
+          "text": "{{call.name|Unknown}}",
+          "fontSize": 30,
+          "color": "#ffffff",
+          "fontWeight": 700,
+          "align": "center"
+        },
+        {
+          "id": "incoming-number",
+          "type": "text",
+          "x": 24,
+          "y": 142,
+          "w": 432,
+          "h": 34,
+          "text": "{{call.number|}}",
+          "fontSize": 17,
+          "color": "#bbbbbb",
+          "fontWeight": 400,
+          "align": "center"
+        },
+        {
+          "id": "incoming-accept",
+          "type": "button",
+          "x": 54,
+          "y": 218,
+          "w": 160,
+          "h": 56,
+          "text": "Accept",
+          "action": {
+            "type": "command",
+            "command": "phone.accept"
+          },
+          "background": "#17301d",
+          "color": "#73ff91",
+          "fontSize": 17,
+          "fontWeight": 700,
+          "radius": 0
+        },
+        {
+          "id": "incoming-decline",
+          "type": "button",
+          "x": 266,
+          "y": 218,
+          "w": 160,
+          "h": 56,
+          "text": "Decline",
+          "action": {
+            "type": "command",
+            "command": "phone.decline"
+          },
+          "background": "#351414",
+          "color": "#ff8b8b",
+          "fontSize": 17,
+          "fontWeight": 700,
+          "radius": 0
+        }
+      ]
+    }
   ]
 }

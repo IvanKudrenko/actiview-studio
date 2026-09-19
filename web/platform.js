@@ -3,7 +3,7 @@
 
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
-  const RUNTIME_VERSION = '1.0.0';
+  const RUNTIME_VERSION = '1.1.0';
   const DB_NAME = 'actiview-studio';
   const DB_STORE = 'projects';
   const DB_KEY = 'current';
@@ -21,16 +21,21 @@
     }
 
     async loadProject() {
+      const bundledProject = await this.loadBundledProject();
       if (this.localBackend) {
         const response = await fetch('api/project', {cache:'no-store'});
         if (!response.ok) throw new Error(await response.text());
-        return {project:await response.json(), source:'local project'};
+        return {project:await response.json(), bundledProject, source:'local project'};
       }
       const saved = await this.readSaved();
-      if (saved) return {project:saved, source:'this browser'};
+      if (saved) return {project:saved, bundledProject, source:'this browser', updateAvailable:saved.sourceRevision !== bundledProject.sourceRevision};
+      return {project:bundledProject, bundledProject, source:'bundled project'};
+    }
+
+    async loadBundledProject() {
       const response = await fetch('project/project.json', {cache:'no-store'});
       if (!response.ok) throw new Error('The bundled ActiView project could not be loaded.');
-      return {project:await response.json(), source:'bundled project'};
+      return response.json();
     }
 
     async saveProject(project) {
